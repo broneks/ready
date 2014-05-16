@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>LinkedIn Data</title>
+	<style>
+		#education {
+			border: 1px solid red;
+		}
+		#skills {
+			border: 1px solid green;
+		}
+		#skills span {
+			cursor: pointer;
+		}
+		textarea {
+			height: 300px;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="profile"></div>
+
+	<script src="jquery-1.11.0.min.js"></script>
+	<script>
+		$.ajax({
+			url: 'profile.php',
+			success: function(data) {
+
+				console.log(data);
+				loadData(data);
+			
+			},
+			error: function(xhr, status, error) {
+
+				$('#profile').html( '<h2>' + error + '</h2><p>There was an error when retrieving your data. Please refresh the page.</p><p>:(</p>' );
+			
+			}
+		});
+
+		function loadData(data) {
+			var 
+				profile$  = $('#profile'),
+				positions = data.positions.values,
+				edu 	  = data.educations.values,
+				skills    = data.skills.values;
+
+
+			profile$.append('<h1>' + data.firstName + ' ' + data.lastName + '</h1>');
+
+			// positions
+			if (positions) {
+				profile$.append('<div id="positions"></div>');
+
+				$.each(positions, function() {
+					$("#positions").append(
+						'<div class="pos"><p>' +
+						this.company.name +
+						'</p><textarea>' +
+						this.summary +
+						'</textarea></div>'
+					);
+				});
+			}
+			
+			// education
+			if (edu) {
+				profile$.append('<div id="education"><textarea></textarea></div>');
+
+				$.each(edu, function() {
+					loop('#education textarea', this);
+				});
+			}
+
+			// skills
+			if (skills) {
+				profile$.append('<form id="skills"></form>');
+
+				$.each(skills, function() {
+					$('#skills').append('<div><span class="x"> X </span><input type="text" value="' + this.skill.name + '"></div>');
+				});
+
+				$('.x').on('click', function() {
+					$(this).parent().remove();
+				});
+			}
+
+			function loop(append_to, obj) {
+				$.each(obj, function(key, val) {
+					if (key === 'id')
+						return
+					else if (typeof val === 'object')
+						loop(append_to, val);
+					else
+						$(append_to).append(val + "\n\n");
+				});
+				return false;
+			}
+		}
+	</script>
+</body>
+</html>
