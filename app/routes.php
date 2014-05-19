@@ -12,21 +12,18 @@ Route::get('/', array(
 
 // Authenticated group
 
-Route::group(array('before' => 'auth'), function() {
+Route::get('/account/sign-out', array(
+	'as'   => 'account-sign-out',
+	'uses' => 'AccountController@getSignOut'
+))->before('auth');
 
-	Route::get('/account/sign-out', array(
-		'as'   => 'account-sign-out',
-		'uses' => 'AccountController@getSignOut'
-	));
-
-});
+// Unauthenticated group
 
 Route::post('/account/sign-in', array(
 	'as'   => 'account-sign-in-post',
 	'uses' => 'AccountController@postSignIn'
-));
+))->before('guest', 'csrf');
 
-// Unauthenticated group
 
 Route::group(array('before' => 'guest'), function() {
 
@@ -40,18 +37,7 @@ Route::group(array('before' => 'guest'), function() {
 			'as'   => 'account-create-post',
 			'uses' => 'AccountController@postCreate'
 		));
-
-		// Sign in (POST)
-
-		
 	});
-
-	// Sign in (GET)
-
-	// Route::get('/account/sign-in', array(
-	// 	'as'   => 'account-sign-in',
-	// 	'uses' => 'AccountController@getSignIn'
-	// ));
 
 	// create account (GET)
 

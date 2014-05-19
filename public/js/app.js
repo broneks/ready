@@ -1,23 +1,30 @@
 app.config(function($routeProvider) {
 	$routeProvider.when('/', {
-		templateUrl:  'templates/home.html',
-		controller:   'HomeController',
-		title: 		  'Home',
-		requireLogin: false
+		templateUrl: 'templates/home.html',
+		controller:  'HomeController',
+		title: 		 'Home',
+		requireAuth: false
 	});
 
 	$routeProvider.when('/account/sign-in', {
-		templateUrl:  'templates/signin.html',
-		controller:   'SigninController',
-		title:        'Sign In',
-		requireLogin: false
+		templateUrl: 'templates/signin.html',
+		controller:  'SigninController',
+		title:       'Sign In',
+		requireAuth: false
+	});
+
+	$routeProvider.when('/account/sign-out', {
+		template:    '<p>Signing Out...</p>',
+		controller:  'SignoutController',
+		title:       'Signing Out',
+		requireAuth: true
 	});
 
 	$routeProvider.when('/dashboard', {
-		templateUrl:  'templates/dashboard.html',
-		controller:   'DashboardController',
-		title:        'Welcome',
-		requireLogin: true
+		templateUrl: 'templates/dashboard.html',
+		controller:  'DashboardController',
+		title:       'Welcome to Your Dashboard',
+		requireAuth: true
 	});
 
 	$routeProvider.otherwise({ redirectTo: '/' });
@@ -25,16 +32,29 @@ app.config(function($routeProvider) {
 
 
 app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($location, $rootScope, AccountService, FlashService) {
-	// *** to be fixed
+	
+	$rootScope.signedIn = AccountService.isSignedIn();
+
+	// Block unauthenticated users from pages that require auth
 	$rootScope.$on('$routeChangeStart', function(event, next, current) {
-		if (next.requireLogin && !AccountService.isSignedIn())
+		if (next.requireAuth && !AccountService.isSignedIn()) {
+
 			event.preventDefault();
+			$location.path(current.originalPath);
+		
+		}
+		return false;
 	});
 
-	// dynamic page title
+	// Set page title dynamically
 	$rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
 
-		if (current.hasOwnProperty('$$route')) $rootScope.title = current.$$route.title;
+		$rootScope.signedIn = AccountService.isSignedIn();
+
+		FlashService.clear();
+
+		if (current.hasOwnProperty('$$route')) 
+			$rootScope.title = current.$$route.title;
 
 	});
 }]);
@@ -94,6 +114,7 @@ app.factory('AccountService', ['$http', '$location', '$sanitize', 'TOKEN', 'Flas
 
 	return {
 		signin: function(credentials) {
+
 			var signin = $http.post('/account/sign-in', sanitize(credentials));
 			signin.success(FlashService.clear());
 			signin.success(cacheSession);
@@ -101,23 +122,18 @@ app.factory('AccountService', ['$http', '$location', '$sanitize', 'TOKEN', 'Flas
 			
 			return signin;
 		},
-		logout: function() {
-			//var logout = $http.get("/auth/logout");
-			//logout.success(uncacheSession);
-			
-			//return logout;
+		signout: function() {
+
+			var signout = $http.get('/account/sign-out');
+			signout.success(uncacheSession);
+
+			return signout;
 		},
 		isSignedIn: function() {
+
 			return SessionService.get('authenticated');
 		}
 	};
-}]);
-
-
-app.controller('HomeController', ['$scope', 'AccountService', function($scope, AccountService) {
-	
-	$scope.signedin = AccountService.isSignedIn();	
-
 }]);
 
 
@@ -132,9 +148,25 @@ app.controller('SigninController', ['$scope', '$location', 'AccountService', fun
 	};
 }]);
 
+app.controller('SignoutController', ['$scope', '$location', 'AccountService', function($scope, $location, AccountService) {
+
+	if (AccountService.isSignedIn()) {
+		AccountService.signout().success(function() {
+			$location.path('/');
+		});
+	}
+}]);
+
+
+app.controller('HomeController', ['$scope', function($scope) {
+	
+
+
+}]);
+
 
 app.controller('DashboardController', ['$scope', function($scope) {
 	
-
+	
 
 }]);

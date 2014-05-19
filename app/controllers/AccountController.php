@@ -36,7 +36,7 @@ class AccountController extends BaseController {
 			}
 		}
 
-		return Response::json('really failed');
+		return Response::json(array('error' => ['An unexpected error occurred. Please try again.']), 500);
 	}
 
 
@@ -44,7 +44,7 @@ class AccountController extends BaseController {
 
 	public function getSignOut() {
 		Auth::logout();
-		return Redirect::route('home');
+		return Response::json(array('flash' => 'Signed out!'));
 	}
 
 

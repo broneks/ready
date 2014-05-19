@@ -17,13 +17,18 @@
 </head>
 <body>
 	<nav>
-		<li><a href="#/">Home</a></li>
-		<li><a href="#/dashboard">Dashboard</a></li>
-		<li><a href="#/account/sign-in" ng-show="!signedin">Sign In</a></li>
+		<li>
+			<a href="#/" ng-hide="signedIn">Home</a>
+			<a href="#/dashboard" ng-show="signedIn">Dashboard</a>
+		</li>
+		<li>
+			<a href="#/account/sign-in" ng-hide="signedIn">Sign In</a>
+			<a href="#/account/sign-out" ng-show="signedIn">Sign Out</a>
+		</li>
 	</nav>
 
-	<ul id="flash" ng-show="flash" ng-repeat="error in flash" >
-		<li>{{ error[0] }}</li>
+	<ul id="flash" ng-show="flash" ng-repeat="f in flash" >
+		<li>{{ f[0] }}</li>
 	</ul>
 
 	<div id="view" ng-view></div>
