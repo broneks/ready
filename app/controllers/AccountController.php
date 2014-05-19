@@ -3,46 +3,40 @@ class AccountController extends BaseController {
 	
 	//--- Sign In ---//
 
-	public function getSignIn() {
-		return View::make('signin');
-	}
-
 	public function postSignIn() {
-		$validator = Validator::make(Input::all(), array(
+		$input = array(
+			'email'    => Input::get('email'),
+			'password' => Input::get('password')
+		);
+
+		$validator = Validator::make($input, array(
 			'email'    => 'required|email',
 			'password' => 'required'
 		));
 
 		if ($validator->fails()) {
-			// Redirect to sign in page
 
-			return Redirect::route('account-sign-in')
-				->withErrors($validator)
-				->withInput();
+			return Response::json($validator->messages()->toArray(), 500);
 
 		} else {
 
-			$remember = (Input::has('remember')) ? true : false;
-
 			$auth = Auth::attempt(array(
-				'email'    => Input::get('email'),
-				'password' => Input::get('password'),
+				'email'    => Input::json('email'),
+				'password' => Input::json('password'),
 				'active'   => 1
-			), $remember);
+			), Input::json('remember'));
 
 			if ($auth) {
-				// Redirect to the intended page
 
-				return Redirect::intended('/');
+				return Response::json(Auth::user());
 
 			} else {
-				return Redirect::route('account-sign-in')
-					->with('global', 'Email or password was incorrent or the account has not been activted');
+
+				return Response::json(array('error' => ['Incorrect credentials. Please try again.']), 500);
 			}
 		}
 
-		return Redirect::route('account-sign-in')
-			->with('global', 'There was a problem signing you in.');
+		return Response::json('really failed');
 	}
 
 

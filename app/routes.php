@@ -21,6 +21,10 @@ Route::group(array('before' => 'auth'), function() {
 
 });
 
+Route::post('/account/sign-in', array(
+	'as'   => 'account-sign-in-post',
+	'uses' => 'AccountController@postSignIn'
+));
 
 // Unauthenticated group
 
@@ -39,18 +43,15 @@ Route::group(array('before' => 'guest'), function() {
 
 		// Sign in (POST)
 
-		Route::post('/account/sign-in', array(
-			'as'   => 'account-sign-in-post',
-			'uses' => 'AccountController@postSignIn'
-		));
+		
 	});
 
 	// Sign in (GET)
 
-	Route::get('/account/sign-in', array(
-		'as'   => 'account-sign-in',
-		'uses' => 'AccountController@getSignIn'
-	));
+	// Route::get('/account/sign-in', array(
+	// 	'as'   => 'account-sign-in',
+	// 	'uses' => 'AccountController@getSignIn'
+	// ));
 
 	// create account (GET)
 
