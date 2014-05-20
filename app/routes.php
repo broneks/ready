@@ -13,16 +13,24 @@ Route::get('/', array(
 // Authenticated group
 
 Route::get('/account/sign-out', array(
-	'as'   => 'account-sign-out',
-	'uses' => 'AccountController@getSignOut'
-))->before('auth');
+	'before' => 'auth',
+	'as'     => 'account-sign-out',
+	'uses'   => 'AccountController@getSignOut'
+));
+
+Route::get('/account/user', array(
+	'before' => 'auth',
+	'as'     => 'account-user',
+	'uses'   => 'AccountController@getUser'
+));
 
 // Unauthenticated group
 
 Route::post('/account/sign-in', array(
-	'as'   => 'account-sign-in-post',
-	'uses' => 'AccountController@postSignIn'
-))->before('guest', 'csrf');
+	'before' => 'guest',
+	'as'     => 'account-sign-in-post',
+	'uses'   => 'AccountController@postSignIn'
+));
 
 
 Route::group(array('before' => 'guest'), function() {

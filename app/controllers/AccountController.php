@@ -48,6 +48,14 @@ class AccountController extends BaseController {
 	}
 
 
+	//--- Get User ---//
+
+
+	public function getUser() {
+		return Response::json(Auth::user());
+	}
+
+
 	//--- Create an Account ---//
 
 	public function getCreate() {

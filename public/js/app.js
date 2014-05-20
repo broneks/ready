@@ -24,7 +24,12 @@ app.config(function($routeProvider) {
 		templateUrl: 'templates/dashboard.html',
 		controller:  'DashboardController',
 		title:       'Welcome to Your Dashboard',
-		requireAuth: true
+		requireAuth: true,
+		resolve: {
+			user: function($http) {
+				return $http.get('/account/user');
+			}
+		}
 	});
 
 	$routeProvider.otherwise({ redirectTo: '/' });
@@ -87,7 +92,7 @@ app.factory("SessionService", function() {
 });
 
 
-app.factory('AccountService', ['$http', '$location', '$sanitize', 'TOKEN', 'FlashService', 'SessionService', function($http, $location, $sanitize, TOKEN, FlashService, SessionService) {
+app.factory('AccountService', ['$http', '$rootScope', '$location', '$sanitize', 'TOKEN', 'FlashService', 'SessionService', function($http, $rootScope, $location, $sanitize, TOKEN, FlashService, SessionService) {
 
 	var sanitize = function(credentials) {
 		var remember = (credentials.remember) ? true : false;
@@ -116,8 +121,8 @@ app.factory('AccountService', ['$http', '$location', '$sanitize', 'TOKEN', 'Flas
 		signin: function(credentials) {
 
 			var signin = $http.post('/account/sign-in', sanitize(credentials));
-			signin.success(FlashService.clear());
 			signin.success(cacheSession);
+			signin.success(FlashService.clear());
 			signin.error(signinError);
 			
 			return signin;
@@ -148,6 +153,14 @@ app.controller('SigninController', ['$scope', '$location', 'AccountService', fun
 	};
 }]);
 
+
+app.controller('RegisterController', ['$scope', '$location', 'AccountService', function($scope, $location, AccountService) {
+
+	
+
+}]);
+
+
 app.controller('SignoutController', ['$scope', '$location', 'AccountService', function($scope, $location, AccountService) {
 
 	if (AccountService.isSignedIn()) {
@@ -165,8 +178,7 @@ app.controller('HomeController', ['$scope', function($scope) {
 }]);
 
 
-app.controller('DashboardController', ['$scope', function($scope) {
+app.controller('DashboardController', ['$scope', 'AccountService', 'user', function($scope, AccountService, user) {
 	
-	
-
+	$scope.user = user.data;
 }]);
