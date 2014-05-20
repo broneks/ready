@@ -32,11 +32,11 @@ class AccountController extends BaseController {
 
 			} else {
 
-				return Response::json(array('error' => ['Incorrect credentials. Please try again.']), 500);
+				return Response::json(array('error' => 'Incorrect credentials. Please try again.'), 500);
 			}
 		}
 
-		return Response::json(array('error' => ['An unexpected error occurred. Please try again.']), 500);
+		return Response::json(array('error' => 'An unexpected error occurred. Please try again.'), 500);
 	}
 
 

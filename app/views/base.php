@@ -28,7 +28,8 @@
 	</nav>
 
 	<ul id="flash" ng-show="flash" ng-repeat="f in flash" >
-		<li>{{ f[0] }}</li>
+		<li ng-if="f[0].length == 1">{{ f }}</li>
+		<li ng-if="f[0].length > 1">{{ f[0] }}</li>
 	</ul>
 
 	<div id="view" ng-view></div>

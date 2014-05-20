@@ -45,7 +45,8 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 		if (next.requireAuth && !AccountService.isSignedIn()) {
 
 			event.preventDefault();
-			$location.path(current.originalPath);
+			//FlashService.show("{'error': 'Please log in to continue.'}");
+			$location.path('/');
 		
 		}
 		return false;
@@ -78,21 +79,21 @@ app.factory('FlashService', ['$rootScope', function($rootScope) {
 
 
 app.factory("SessionService", function() {
-  return {
-    get: function(key) {
-      return sessionStorage.getItem(key);
-    },
-    set: function(key, val) {
-      return sessionStorage.setItem(key, val);
-    },
-    unset: function(key) {
-      return sessionStorage.removeItem(key);
-    }
-  }
+	return {
+		get: function(key) {
+			return sessionStorage.getItem(key);
+		},
+		set: function(key, val) {
+			return sessionStorage.setItem(key, val);
+		},
+		unset: function(key) {
+			return sessionStorage.removeItem(key);
+		}
+	}
 });
 
 
-app.factory('AccountService', ['$http', '$rootScope', '$location', '$sanitize', 'TOKEN', 'FlashService', 'SessionService', function($http, $rootScope, $location, $sanitize, TOKEN, FlashService, SessionService) {
+app.factory('AccountService', ['$http', '$location', '$sanitize', 'TOKEN', 'FlashService', 'SessionService', function($http, $location, $sanitize, TOKEN, FlashService, SessionService) {
 
 	var sanitize = function(credentials) {
 		var remember = (credentials.remember) ? true : false;
