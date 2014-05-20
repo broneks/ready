@@ -8,12 +8,6 @@
 	<meta name="author" content="Bronek Szulc">
 
 	<title ng-bind="'jobReady | ' + title">jobReady</title>
-
-	<script src="/js/vendors/angular.min.js"></script>
-	<script src="/js/vendors/angular-route.min.js"></script>
-	<script src="/js/vendors/angular-sanitize.min.js"></script>
-	<script>var app = angular.module('jobReady', ['ngRoute', 'ngSanitize']).constant('TOKEN', '<?= csrf_token() ?>');</script>
-	<script src="/js/app.js"></script>
 </head>
 <body>
 	<nav>
@@ -33,5 +27,13 @@
 	</ul>
 
 	<div id="view" ng-view></div>
+
+	<script src="/js/vendors/angular.min.js"></script>
+	<script src="/js/vendors/angular-route.min.js"></script>
+	<script src="/js/vendors/angular-sanitize.min.js"></script>
+	<script>var app = angular.module('jobReady', ['ngRoute', 'ngSanitize']).constant('TOKEN', '<?= csrf_token() ?>');</script>
+	<script src="/js/app.js"></script>
+	<script src="/js/services.js"></script>
+	<script src="/js/controllers.js"></script>
 </body>
 </html>

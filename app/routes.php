@@ -1,5 +1,4 @@
 <?php
-
 //----- Main -----//
 
 Route::get('/', array(
@@ -8,7 +7,7 @@ Route::get('/', array(
 ));
 
 
-//----- Login, Logout & Create Account -----//
+//----- Auth -----//
 
 // Authenticated group
 
