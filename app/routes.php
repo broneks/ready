@@ -26,7 +26,7 @@ Route::get('/account/user', array(
 // Unauthenticated group
 
 Route::post('/account/sign-in', array(
-	'before' => 'csrf_json|guest',
+	'before' => 'csrf_json',
 	'as'     => 'account-sign-in-post',
 	'uses'   => 'AccountController@postSignIn'
 ));

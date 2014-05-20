@@ -8,20 +8,27 @@
 	<meta name="author" content="Bronek Szulc">
 
 	<title ng-bind="'jobReady | ' + title">jobReady</title>
+
+	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-	<nav>
-		<li>
-			<a href="#/" ng-hide="signedIn">Home</a>
-			<a href="#/dashboard" ng-show="signedIn">Dashboard</a>
-		</li>
-		<li>
-			<a href="#/account/sign-in" ng-hide="signedIn">Sign In</a>
-			<a href="#/account/sign-out" ng-show="signedIn">Sign Out</a>
-		</li>
-	</nav>
 
-	<ul id="flash" ng-show="flash" ng-repeat="f in flash" >
+	<header>
+		<h1>jobReady</h1>
+
+		<nav>
+			<li>
+				<a href="#/" ng-hide="signedIn">Home</a>
+				<a href="#/dashboard" ng-show="signedIn">Dasboard</a>
+			</li>
+			<li>
+				<a href="#/account/sign-in" ng-hide="signedIn">Sign In</a>
+				<a href="#/account/sign-out" ng-show="signedIn">Sign Out</a>
+			</li>
+		</nav>
+	</header>
+
+	<ul id="flash" ng-show="flash" ng-repeat="f in flash">
 		<li ng-if="f[0].length == 1">{{ f }}</li>
 		<li ng-if="f[0].length > 1">{{ f[0] }}</li>
 	</ul>
