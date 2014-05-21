@@ -1,3 +1,23 @@
-<div>
-	Register
-</div>
+<form ng-submit="register()" method="post">
+	<div class="field">
+		Email: 
+		<input type="text" name="email" ng-model="details.email">
+	</div>
+
+	<div class="field">
+		Username: 
+		<input type="text" name="username" ng-model="details.username">
+	</div>
+
+	<div class="field">
+		Password: 
+		<input type="password" name="password" ng-model="details.password">
+	</div>
+
+	<div class="field">
+		Password Again: 
+		<input type="password" name="password_again" ng-model="details.password_again">
+	</div>
+		
+	<input type="submit" value="Create Account">
+</form>

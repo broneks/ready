@@ -16,7 +16,7 @@
 	<header>
 		<h1>jobReady</h1>
 
-		<nav>
+		<nav ng-cloak>
 			<li>
 				<a href="#/" ng-hide="signedIn">Home</a>
 				<a href="#/dashboard" ng-show="signedIn">Dasboard</a>
@@ -25,10 +25,11 @@
 				<a href="#/account/sign-in" ng-hide="signedIn">Sign In</a>
 				<a href="#/account/sign-out" ng-show="signedIn">Sign Out</a>
 			</li>
+			<li><a href="#/account/create" ng-hide="signedIn">Create Account</a></li>
 		</nav>
 	</header>
 
-	<ul id="flash" ng-show="flash" ng-repeat="f in flash">
+	<ul id="flash" ng-show="flash" ng-repeat="f in flash" ng-cloak>
 		<li ng-if="f[0].length == 1">{{ f }}</li>
 		<li ng-if="f[0].length > 1">{{ f[0] }}</li>
 	</ul>
@@ -38,8 +39,8 @@
 	<script src="/js/vendors/angular.min.js"></script>
 	<script src="/js/vendors/angular-route.min.js"></script>
 	<script src="/js/vendors/angular-sanitize.min.js"></script>
-	<script>var app = angular.module('jobReady', ['ngRoute', 'ngSanitize']).constant('TOKEN', '<?= csrf_token() ?>');</script>
 	<script src="/js/app.js"></script>
+	<script>angular.module('jobReady').constant('TOKEN', {'csrf_token': '<?= csrf_token() ?>'});</script>
 	<script src="/js/services.js"></script>
 	<script src="/js/controllers.js"></script>
 </body>

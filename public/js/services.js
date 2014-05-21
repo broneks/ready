@@ -35,18 +35,7 @@ app.factory("SessionService", function() {
 
 //--- Account ---//
 
-app.factory('AccountService', ['$http', '$location', '$sanitize', 'TOKEN', 'FlashService', 'SessionService', function($http, $location, $sanitize, TOKEN, FlashService, SessionService) {
-
-	var sanitize = function(credentials) {
-		var remember = (credentials.remember) ? true : false;
-
-		return {
-			email: $sanitize(credentials.email),
-			password: $sanitize(credentials.password),
-			remember: remember,
-			csrf_token: TOKEN
-		};
-	};
+app.factory('AccountService', ['$http', '$location', 'TOKEN', 'FlashService', 'SessionService', function($http, $location, TOKEN, FlashService, SessionService) {
 
 	var cacheSession = function() {
 		SessionService.set('authenticated', true);
@@ -56,17 +45,27 @@ app.factory('AccountService', ['$http', '$location', '$sanitize', 'TOKEN', 'Flas
 		SessionService.unset('authenticated');
 	};
 
-	var signinError = function(response) {
+	var showFlash = function(response) {
 		FlashService.show(response);
 	};
 
 	return {
+		register: function(details) {
+
+			var register = $http.post('/account/create', angular.extend(details, TOKEN));
+			register.success(function(data) { return data; });
+			register.error(showFlash);
+
+			return register;
+		},
 		signin: function(credentials) {
 
-			var signin = $http.post('/account/sign-in', sanitize(credentials));
+			credentials.remember = (credentials.remember) ? true : false;
+
+			var signin = $http.post('/account/sign-in', angular.extend(credentials, TOKEN));
 			signin.success(cacheSession);
 			signin.success(FlashService.clear());
-			signin.error(signinError);
+			signin.error(showFlash);
 			
 			return signin;
 		},

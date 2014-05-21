@@ -2,6 +2,8 @@
 //--- App ---//
 //-----------//
 
+var app = angular.module('jobReady', ['ngRoute', 'ngSanitize']);
+
 app.config(function($httpProvider) {
 	var logsOutUserOn401 = function($location, $q, SessionService, FlashService) {
 		var success = function(response) {
@@ -35,7 +37,7 @@ app.config(function($routeProvider) {
 	});
 
 	$routeProvider.when('/account/create', {
-		templateUrl: 'template/register.html',
+		templateUrl: 'templates/register.html',
 		controller:  'RegisterCtrl',
 		title:       'Create an Account',
 		requireAuth: false
@@ -80,9 +82,8 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 		if (next.requireAuth && !AccountService.isSignedIn()) {
 
 			event.preventDefault();
-			//FlashService.show("{'error': 'Please log in to continue.'}");
 			$location.path('/');
-		
+			
 		}
 		return false;
 	});

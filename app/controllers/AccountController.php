@@ -64,12 +64,15 @@ class AccountController extends BaseController {
 
 	//--- Create an Account ---//
 
-	public function getCreate() {
-		return View::make('create');
-	}
-
 	public function postCreate() {
-		$validator = Validator::make(Input::all(), array(
+		$input = array(
+			'email'          => Input::get('email'),
+			'username'       => Input::get('username'),
+			'password'       => Input::get('password'),
+			'password_again' => Input::get('password_again')
+		);
+
+		$validator = Validator::make($input, array(
 			'email'	 		 => 'required|max:100|email|unique:users',
 			'username' 		 => 'required|max:20|min:3|unique:users',
 			'password' 		 => 'required|min:6',
@@ -77,15 +80,15 @@ class AccountController extends BaseController {
 		));
 
 		if ($validator->fails()) {
-			return Redirect::route('account-create')
-				->withErrors($validator)
-				->withInput();
+
+			return Response::json($validator->messages()->toArray(), 500);
+
 		} else {
 			// create the account
 
-			$email    = Input::get('email');
-			$username = Input::get('username');
-			$password = Input::get('password');
+			$email    = Input::json('email');
+			$username = Input::json('username');
+			$password = Input::json('password');
 
 			// Activation code
 
@@ -114,8 +117,7 @@ class AccountController extends BaseController {
 					$message->to($user->email, $user->username)->subject('Activate your account');
 				});
 
-				return Redirect::route('home')
-					->with('global', 'Your account has been created! We have sent you an email to active your account.');
+				return Response::json(array('flash' => 'Your account has been created! We have sent you an email to active your account.'));
 			}
 		}
 	}
@@ -132,12 +134,10 @@ class AccountController extends BaseController {
 			$user->code = '';
 			
 			if ($user->save()) {
-				return Redirect::route('home')
-					->with('global', 'Activated! You can now sign in!');
+				return Redirect::to('/');
 			}
 		}
 
-		return Redirect::route('home')
-			->with('global', 'Your account is already active or there was a problem during activation.');
+		return Response::json(array('error' => 'Your account is already active or there was a problem during activation.'), 500);
 	}
 }

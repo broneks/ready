@@ -24,9 +24,16 @@ app.controller('DashboardCtrl', ['$scope', 'AccountService', 'user', function($s
 
 //--- Register ---//
 
-app.controller('RegisterCtrl', ['$scope', '$location', 'AccountService', function($scope, $location, AccountService) {
+app.controller('RegisterCtrl', ['$scope', '$location', 'AccountService', 'FlashService', function($scope, $location, AccountService, FlashService) {
 
-	
+	$scope.details = {email: '', username: '', password: '', password_again: ''};
+
+	$scope.register = function() {
+		AccountService.register($scope.details).success(function(data) {
+			$location.path('/');
+			FlashService.show(data);
+		});
+	};
 
 }]);
 
