@@ -57,16 +57,23 @@ app.config(function($routeProvider) {
 		requireAuth: true
 	});
 
-	$routeProvider.when('/dashboard', {
+	$routeProvider.when('/app/dashboard', {
 		templateUrl: 'templates/dashboard.html',
 		controller:  'DashboardCtrl',
-		title:       'Welcome to Your Dashboard',
+		title:       'Your Dashboard',
 		requireAuth: true,
 		resolve: {
 			user: function($http) {
 				return $http.get('/account/user');
 			}
 		}
+	});
+
+	$routeProvider.when('/app/resume-builder', {
+		templateUrl: 'templates/builder.html',
+		controller:  'BuilderCtrl',
+		title:       'Resume Builder',
+		requireAuth: true
 	});
 
 	$routeProvider.otherwise({ redirectTo: '/' });

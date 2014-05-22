@@ -9,23 +9,35 @@
 
 	<title ng-bind="'jobReady | ' + title">jobReady</title>
 
+	<link rel="stylesheet" href="/css/normalize.min.css">
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
-	<header>
+	<header id="top-header">
 		<h1>jobReady</h1>
 
 		<nav ng-cloak>
-			<li>
-				<a href="#/" ng-hide="signedIn">Home</a>
-				<a href="#/dashboard" ng-show="signedIn">Dasboard</a>
-			</li>
-			<li>
-				<a href="#/account/sign-in" ng-hide="signedIn">Sign In</a>
-				<a href="#/account/sign-out" ng-show="signedIn">Sign Out</a>
-			</li>
-			<li><a href="#/account/create" ng-hide="signedIn">Create Account</a></li>
+			<ul ng-if="!signedIn">
+				<li>
+					<a href="#/">Home</a>
+				</li>
+				<li>
+					<a href="#/account/sign-in">Sign In</a>
+				</li>
+				<li>
+					<a href="#/account/create">Create Account</a>
+				</li>
+			</ul>
+			
+			<ul ng-if="signedIn">
+				<li>
+					<a href="#/app/dashboard">Dashboard</a>
+				</li>
+				<li>
+					<a href="#/account/sign-out">Sign Out</a>
+				</li>
+			</ul>
 		</nav>
 	</header>
 
@@ -34,7 +46,7 @@
 		<li ng-if="f[0].length > 1">{{ f[0] }}</li>
 	</ul>
 
-	<div id="view" ng-view></div>
+	<div id="main" ng-view></div>
 
 	<script src="/js/vendors/angular.min.js"></script>
 	<script src="/js/vendors/angular-route.min.js"></script>

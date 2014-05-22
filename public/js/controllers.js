@@ -20,6 +20,30 @@ app.controller('DashboardCtrl', ['$scope', 'AccountService', 'user', function($s
 }]);
 
 
+//--- Resume Builder ---//
+
+app.controller('BuilderCtrl', ['$scope', function($scope) {
+
+	$scope.templates = [];
+
+	$scope.fonts = [];
+
+	$scope.doc = {
+		template: '',
+		font: '',
+		name: '',
+		address: '',
+		email: '',
+		phone: '',
+		education: '',
+		employment: '',
+		skills: [],
+		interests: ''
+	};
+
+}]);
+
+
 
 
 //--- Register ---//
@@ -46,7 +70,7 @@ app.controller('SigninCtrl', ['$scope', '$location', 'AccountService', function(
 
 	$scope.signin = function() {
 		AccountService.signin($scope.credentials).success(function() {
-			$location.path('/dashboard');
+			$location.path('/app/dashboard');
 		});
 	};
 }]);
