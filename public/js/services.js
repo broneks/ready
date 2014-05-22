@@ -73,6 +73,7 @@ app.factory('AccountService', ['$http', '$location', 'TOKEN', 'FlashService', 'S
 
 			var signout = $http.get('/account/sign-out');
 			signout.success(uncacheSession);
+			signout.success(showFlash);
 
 			return signout;
 		},

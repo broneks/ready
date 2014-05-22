@@ -29,7 +29,7 @@
 		</nav>
 	</header>
 
-	<ul id="flash" ng-show="flash" ng-repeat="f in flash" ng-cloak>
+	<ul id="flash" ng-if="flash" ng-repeat="f in flash" ng-cloak>
 		<li ng-if="f[0].length == 1">{{ f }}</li>
 		<li ng-if="f[0].length > 1">{{ f[0] }}</li>
 	</ul>

@@ -110,14 +110,24 @@ class AccountController extends BaseController {
 				// 	$message->to('bronekszulc@gmail.com', 'Bronek')->subject('Test');
 				// });
 
-				Mail::send('emails.auth.activate', array(
-					'link'     => URL::route('account-activate', $code),
-					'username' => $username
-				), function($message) use ($user) {
-					$message->to($user->email, $user->username)->subject('Activate your account');
-				});
+				try {
 
-				return Response::json(array('flash' => 'Your account has been created! We have sent you an email to active your account.'));
+					Mail::send('emails.auth.activate', array(
+						'link'     => URL::route('account-activate', $code),
+						'username' => $username
+					), function($message) use ($user) {
+						$message->to($user->email, $user->username)->subject('Activate your account');
+					});
+
+					return Response::json(array('flash' => 'Your account has been created! We have sent you an email to active your account.'));
+			
+				} catch(Exception $e) {
+
+					$user->delete();
+
+					return Response::json(array('error' => 'An unexpected error occurrd. Please try again.'), 500);
+
+				}
 			}
 		}
 	}
@@ -138,6 +148,6 @@ class AccountController extends BaseController {
 			}
 		}
 
-		return Response::json(array('error' => 'Your account is already active or there was a problem during activation.'), 500);
+		return Redirect::to('/');
 	}
 }

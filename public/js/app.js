@@ -93,8 +93,8 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 
 		$rootScope.signedIn = AccountService.isSignedIn();
 
-		FlashService.clear();
-
+		
+		
 		if (current.hasOwnProperty('$$route')) 
 			$rootScope.title = current.$$route.title;
 
