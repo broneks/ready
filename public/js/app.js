@@ -91,6 +91,11 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 			event.preventDefault();
 			$location.path('/');
 			
+		} else if (AccountService.isSignedIn() && next.originalPath === '/') {
+
+			event.preventDefault();
+			$location.path('/app/dashboard');
+
 		}
 		return false;
 	});
