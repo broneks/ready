@@ -64,7 +64,6 @@ app.factory('AccountService', ['$http', '$location', 'TOKEN', 'FlashService', 'S
 
 			var signin = $http.post('/account/sign-in', angular.extend(credentials, TOKEN));
 			signin.success(cacheSession);
-			signin.success(FlashService.clear());
 			signin.error(showFlash);
 			
 			return signin;

@@ -100,7 +100,9 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 
 		$rootScope.signedIn = AccountService.isSignedIn();
 
-		
+		if (current && $rootScope.flash)
+			if (current.originalPath !== $rootScope.flash.path)
+				FlashService.clear()
 		
 		if (current.hasOwnProperty('$$route')) 
 			$rootScope.title = current.$$route.title;

@@ -4,6 +4,8 @@ class AccountController extends BaseController {
 	//--- Sign In ---//
 
 	public function postSignIn() {
+		$path = '/account/sign-in';
+
 		$input = array(
 			'email'    => Input::get('email'),
 			'password' => Input::get('password')
@@ -16,7 +18,7 @@ class AccountController extends BaseController {
 
 		if ($validator->fails()) {
 
-			return Response::json($validator->messages()->toArray(), 500);
+			return Response::json(array_merge($validator->messages()->toArray(), array('path' => $path)), 500);
 
 		} else {
 
@@ -32,11 +34,11 @@ class AccountController extends BaseController {
 
 			} else {
 
-				return Response::json(array('error' => 'Incorrect credentials. Please try again.'), 500);
+				return Response::json(array('error' => 'Incorrect credentials. Please try again.', 'path' => $path), 500);
 			}
 		}
 
-		return Response::json(array('error' => 'An unexpected error occurred. Please try again.'), 500);
+		return Response::json(array('error' => 'An unexpected error occurred. Please try again.', 'path' => $path), 500);
 	}
 
 
@@ -44,7 +46,7 @@ class AccountController extends BaseController {
 
 	public function getSignOut() {
 		Auth::logout();
-		return Response::json(array('flash' => 'Signed out!'));
+		return Response::json(array('flash' => 'Signed out!', 'path' => '/'));
 	}
 
 
@@ -65,6 +67,8 @@ class AccountController extends BaseController {
 	//--- Create an Account ---//
 
 	public function postCreate() {
+		$path = '/account/create';
+
 		$input = array(
 			'email'          => Input::get('email'),
 			'username'       => Input::get('username'),
@@ -81,7 +85,7 @@ class AccountController extends BaseController {
 
 		if ($validator->fails()) {
 
-			return Response::json($validator->messages()->toArray(), 500);
+			return Response::json(array_merge($validator->messages()->toArray(), array('path' => $path)), 500);
 
 		} else {
 			// create the account
@@ -104,12 +108,6 @@ class AccountController extends BaseController {
 
 			if ($user) {
 
-				// Send email
-
-				// Mail::send('emails.auth.test', array('name' => 'Alex'), function($message) {
-				// 	$message->to('bronekszulc@gmail.com', 'Bronek')->subject('Test');
-				// });
-
 				try {
 
 					Mail::send('emails.auth.activate', array(
@@ -119,13 +117,13 @@ class AccountController extends BaseController {
 						$message->to($user->email, $user->username)->subject('Activate your account');
 					});
 
-					return Response::json(array('flash' => 'Your account has been created! We have sent you an email to active your account.'));
+					return Response::json(array('flash' => 'Your account has been created! We have sent you an email to active your account.', 'path' => '/'));
 			
 				} catch(Exception $e) {
 
 					$user->delete();
 
-					return Response::json(array('error' => 'An unexpected error occurrd. Please try again.'), 500);
+					return Response::json(array('error' => 'An unexpected error occurred. Please try again.', 'path' => $path), 500);
 
 				}
 			}
