@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Basic mPDF test</title>
+	<link rel="stylesheet" href="templates.css">
+	<style>
+		#status { color: green; }
+	</style>
+</head>
+<body>
+	<div id="doc">
+		<h1>Hello</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos, debitis, aut beatae consequuntur dolores eius accusantium cumque labore ipsam porro similique alias delectus accusamus blanditiis veniam reprehenderit amet! Aspernatur, quibusdam.</p>
+	</div>
+
+	<div id="status"></div>
+
+	<br>
+
+	<input type="button" value="Convert to PDF" onclick="convert()">
+	
+	<br><br>
+
+	<iframe id="preview" src=""></iframe>
+
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>
+		function convert() {
+			var html = $('#doc').html();
+
+			$.ajax({
+				url: 'convert.php',
+				method: 'post',
+				data: { html: html },
+				success: function(data) {
+					$('#status').html('Conversion was successful! <br> Click filename to download => <a id="download" href="files/' + data + '" target="_blank">' + data + '</a>');
+
+					$("#preview").attr('src', 'files/' + data);
+
+					// $path_parts = pathinfo($_GET['file']);
+					// $file_name  = $path_parts['basename'];
+					// $file_path  = '/mysecretpath/' . $file_name;
+				},
+				error: function() {
+					$('#status').html('Conversion failed.');
+				}
+			});
+		}
+	</script>
+</body>
+</html>

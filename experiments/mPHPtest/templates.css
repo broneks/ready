@@ -1,0 +1,10 @@
+@media print, screen {
+
+	h1 {
+		color: red;
+		padding-bottom: 20px;
+		text-align: center;
+		border-bottom: 1px dashed red;
+	}
+
+}
