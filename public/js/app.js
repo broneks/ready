@@ -2,7 +2,6 @@
 //--- App ---//
 //-----------//
 
-(function() { 'use strict'; })();
 
 var app = angular.module('jobReady', ['ngRoute', 'ngSanitize']);
 
@@ -63,12 +62,7 @@ app.config(function($routeProvider) {
 		templateUrl: 'templates/dashboard.html',
 		controller:  'DashboardCtrl',
 		title:       'Your Dashboard',
-		requireAuth: true,
-		resolve: {
-			user: function($http) {
-				return $http.get('/account/user');
-			}
-		}
+		requireAuth: true
 	});
 
 	$routeProvider.when('/app/resume-builder', {
@@ -85,6 +79,8 @@ app.config(function($routeProvider) {
 app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($location, $rootScope, AccountService, FlashService) {
 	
 	$rootScope.signedIn = AccountService.isSignedIn();
+
+	console.log(AccountService.isSignedIn());
 
 	// Block unauthenticated users from pages that require auth
 	$rootScope.$on('$routeChangeStart', function(event, next, current) {

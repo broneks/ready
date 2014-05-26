@@ -24,6 +24,7 @@ module.exports = function(grunt) {
         jshint: {
         	build: {
 	        	options: {
+                    'devel': true,
       				'eqeqeq': true,
       				'eqnull': true,
       				'browser': true,

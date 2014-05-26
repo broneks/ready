@@ -50,6 +50,7 @@
 
 	<script src="/js/vendors/angular.min.js"></script>
 	<script src="/js/vendors/angular-route.min.js"></script>
+	<script src="/js/vendors/angular-cookies.min.js"></script>
 	<script src="/js/vendors/angular-sanitize.min.js"></script>
 	<script src="/js/app.js"></script>
 	<script>angular.module('jobReady').constant('TOKEN', {'csrf_token': '<?= csrf_token() ?>'});</script>

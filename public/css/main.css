@@ -26,6 +26,10 @@
   padding: 0 21px;
 }
 
+#dash-header {
+  min-height: 109px;
+}
+
 #dash {
   border-top: 1px solid #cccccc;
   -webkit-box-sizing: border-box;

@@ -2,7 +2,6 @@
 //------ Controllers ------//
 //-------------------------//
 
-(function() { 'use strict'; })();
 
 //--- Home ---//
 
@@ -15,9 +14,11 @@ app.controller('HomeCtrl', ['$scope', function($scope) {
 
 //--- Dashboard ---//
 
-app.controller('DashboardCtrl', ['$scope', 'AccountService', 'user', function($scope, AccountService, user) {
+app.controller('DashboardCtrl', ['$scope', '$http', 'AccountService', function($scope, $http, AccountService, user) {
 	
-	$scope.user = user.data;
+	$http.get('/account/user', { cache: true }).success(function(data) { 
+		$scope.user = data.username; 
+	});
 
 }]);
 

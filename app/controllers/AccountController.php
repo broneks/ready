@@ -55,10 +55,9 @@ class AccountController extends BaseController {
 	public function getUser() {
 		$user = Auth::user();
 
-		// id, code
+		// id, code, email
 
 		return Response::json(array(
-			'email'    => $user['email'],
 			'username' => $user['username']
 		));
 	}
