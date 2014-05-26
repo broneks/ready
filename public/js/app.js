@@ -2,6 +2,8 @@
 //--- App ---//
 //-----------//
 
+(function() { 'use strict'; })();
+
 var app = angular.module('jobReady', ['ngRoute', 'ngSanitize']);
 
 app.config(function($httpProvider) {
@@ -107,7 +109,7 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 
 		if (current && $rootScope.flash)
 			if (current.originalPath !== $rootScope.flash.path)
-				FlashService.clear()
+				FlashService.clear();
 		
 		if (current.hasOwnProperty('$$route')) 
 			$rootScope.title = current.$$route.title;

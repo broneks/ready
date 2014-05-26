@@ -1,0 +1,51 @@
+//--- Resume Builder ---//
+
+#rb-left, #rb-right
+	width: 50%
+	padding: 30px 30px 60px
+
+	-webkit-box-sizing: border-box
+	-moz-box-sizing: border-box
+	box-sizing: border-box
+
+#rb-left
+	float: left
+	padding-left: 21px
+	border-right: 1px solid #ccc
+
+	label
+		display: block
+		margin-top: 21px
+		padding: 15px 0
+		border-top: 1px solid #ccc
+
+#rb-right
+	float: right
+	height: auto
+	max-height: 1065px // change this
+	overflow-y: scroll
+
+	background-color: #efefef
+
+	h3
+		margin-top: 0
+		text-align: center
+		font-weight: normal
+		font-style: italic
+		letter-spacing: 0.1em
+
+	// scrollbars
+	#resume::-webkit-scrollbar
+		width: 16px
+	#resume::-webkit-scrollbar-thumb
+		background-color: #B03C3F
+		border-radius: 10px
+	#resume
+		scrollbar-face-color: #B03C3F
+
+	.page
+		width: 600px
+		height: 847px // A4 Paper
+		margin: 0 auto 30px
+		border: 1px solid #999
+		background-color: #fff

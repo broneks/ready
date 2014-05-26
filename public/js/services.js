@@ -2,6 +2,8 @@
 //------ Services ------ //
 //---------------------- //
 
+(function() { 'use strict'; })();
+
 //--- Flash ---//
 
 app.factory('FlashService', ['$rootScope', function($rootScope) {
@@ -18,7 +20,7 @@ app.factory('FlashService', ['$rootScope', function($rootScope) {
 
 //--- Session ---//
 
-app.factory("SessionService", function() {
+app.factory('SessionService', function() {
 	return {
 		get: function(key) {
 			return sessionStorage.getItem(key);
@@ -29,7 +31,7 @@ app.factory("SessionService", function() {
 		unset: function(key) {
 			return sessionStorage.removeItem(key);
 		}
-	}
+	};
 });
 
 

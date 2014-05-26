@@ -2,6 +2,8 @@
 //------ Controllers ------//
 //-------------------------//
 
+(function() { 'use strict'; })();
+
 //--- Home ---//
 
 app.controller('HomeCtrl', ['$scope', function($scope) {
