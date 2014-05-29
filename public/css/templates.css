@@ -1,0 +1,91 @@
+pre { 
+  font-family: inherit; 
+  white-space: pre-wrap; }
+
+@media print, screen {
+/*--- Template 1 --> Basic ---*/
+
+  #ba-header,
+  #ba-wrap { font-family: "ptserif", serif; }
+
+  #ba-address,
+  #ba-phone,
+  #ba-email,
+  #ba-website {
+    margin: 2px 0;
+    text-align: center;
+    font-size: 1em;
+    font-style: italic; }
+
+  #ba-name { 
+    padding-bottom: 15px; 
+    color: #555;
+    text-align: center; }
+
+  #ba-edu-h,
+  #ba-skills-h,
+  #ba-exp-h,
+  #ba-int-h { color: #555; }
+
+
+/*--- Template 2 --> To the Point ---*/
+
+  #ttp-triangle { display: block; }
+
+  #ttp-header {
+    margin: 0 60px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #777; }
+
+  #ttp-header,
+  #ttp-wrap {
+    font-family: sans-serif;
+    overflow-wrap: break-word;
+
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto; }
+
+  #ttp-name,
+  #ttp-education { font-family: "Lato", sans-serif; }
+
+  #ttp-name {
+    margin-top: 0;
+    font-size: 2.2em;
+    color: #00ABE0; }
+
+  #ttp-address {
+    font-size: .8em;
+    color: #777; }
+
+  #ttp-phone, 
+  #ttp-email,
+  #ttp-web {
+    margin: 7px 0;
+    font-size: .8em;
+    color: #777; }
+
+  #ttp-wrap {
+    margin: 0 60px;
+    padding: 15px 0 0;
+    font-size: .9em; }
+
+  #ttp-education { font-size: .9em; }
+
+  #ttp-skills-c { 
+    padding-left: 0;
+    list-style: none;
+    overflow: hidden; }
+
+  .ttp-skills-i {
+    float: left;
+    padding-left: 5px; }
+
+  #ttp-ref { 
+    text-align: center; 
+    font-style: italic; }
+}

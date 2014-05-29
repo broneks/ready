@@ -1,3 +1,9 @@
+.cf:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 #top-header {
   padding: 0 21px 31px;
   overflow: hidden;
@@ -5,7 +11,13 @@
   border-bottom: 2px solid #cccccc;
 }
 #top-header h1 {
-  color: #333333;
+  display: inline-block;
+  padding: 7px;
+  background-color: white;
+  color: #222222;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 #top-header nav ul {
   padding: 0;
@@ -63,21 +75,38 @@
   padding-left: 21px;
   border-right: 1px solid #cccccc;
 }
+#rb-left span {
+  padding-right: 15px;
+  font-weight: bold;
+}
 #rb-left label {
   display: block;
   margin-top: 21px;
   padding: 15px 0;
+  font-weight: bold;
   border-top: 1px solid #cccccc;
+}
+#rb-left input[type=text],
+#rb-left textarea {
+  min-width: 75%;
+  max-width: 97%;
+  width: 75%;
+}
+#rb-left select {
+  width: 200px;
+}
+#rb-left #options {
+  margin-top: 30px;
 }
 
 #rb-right {
   float: right;
-  height: auto;
-  max-height: 1065px;
+  min-height: 900px;
   overflow-y: scroll;
+  padding-bottom: 300px;
   background-color: #efefef;
 }
-#rb-right h3 {
+#rb-right > h3 {
   margin-top: 0;
   text-align: center;
   font-weight: normal;
@@ -94,10 +123,11 @@
 #rb-right #resume {
   scrollbar-face-color: #b03c3f;
 }
-#rb-right .page {
+#rb-right .resume {
   width: 600px;
-  height: 847px;
+  min-height: 847px;
   margin: 0 auto 30px;
+  padding: 20px;
   border: 1px solid #999999;
   background-color: white;
 }

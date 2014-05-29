@@ -1,23 +1,7 @@
 <div id="rb-left">
-	<form ng-submit="chooseTemplate()" method="post">
-		<select id="chooseTemp" ng-model="templates">
-			<option value="">Choose a Template</option>
-			<option value="a">A</option>
-			<option value="b">B</option>
-		</select>
 
-		<input type="submit" value="Choose Template">
-	</form>
-
-	<form ng-submit="chooseFont()" method="post">
-		<select id="chooseFont" ng-model="font">
-			<option value="">Choose a Font</option>
-			<option value="a">A</option>
-			<option value="b">B</option>
-		</select>
-
-		<input type="submit" value="Choose a Font">
-	</form>
+	<span>Choose a Resume Template</span>
+	<select id="changeTemp" ng-model="temp.id" ng-options="template.id as template.title for template in templates" ng-change="changeTemplate(temp.id)"></select>
 
 	<form method="post">
 		<div class="field">
@@ -31,28 +15,38 @@
 		</div>
 
 		<div class="field">
+			<label for="phone">Phone Number</label>
+			<input type="text" id="phone" ng-model="doc.phone">
+		</div>
+
+		<div class="field">
 			<label for="email">Email</label>
 			<input type="text" id="email" ng-model="doc.email">
 		</div>
 
 		<div class="field">
-			<label for="phone">Phone Number</label>
-			<input type="text" id="phone" ng-model="doc.phone">
+			<label for="website">Website</label>
+			<input type="text" id="website" ng-model="doc.website">
+		</div>
+
+		<div class="field">
+			<label for="about">About</label>
+			<textarea id="about" ng-model="doc.about"></textarea>
 		</div>
 
 		<div class="field">
 			<label for="education">Education</label>
 			<textarea id="education" ng-model="doc.education"></textarea>
 		</div>
-		
-		<div class="field">
-			<label for="employment">Employment</label>
-			<textarea id="employment" ng-model="doc.employment"></textarea>
-		</div>
 
 		<div class="field">
 			<label for="skills">Skills (comma separated)</label>
 			<input type="text" id="skills" ng-model="doc.skills" ng-list>
+		</div>
+		
+		<div class="field">
+			<label for="experience">Experience</label>
+			<textarea id="experience" ng-model="doc.experience"></textarea>
 		</div>
 
 		<div class="field">
@@ -60,29 +54,14 @@
 			<textarea id="interests" ng-model="doc.interests"></textarea>
 		</div>
 
-		<input type="button" value="Save Doc">
-
-		<input type="button" value="Download as PDF">
+		<div id="options">
+			<input type="button" value="Save Doc">
+			<input type="button" value="Download as PDF">
+		</div>
 	</form>
 </div>
 <div id="rb-right">
 	<h3>Resume Preview</h3>
 
-	<div id="resume">
-		<div class="page">
-			<!-- Binding Test -->
-			<h2>{{ doc.name }}</h2>
-			<p>{{ doc.address }}</p>
-			<p>{{ doc.email }}</p>
-			<p>{{ doc.phone }}</p>
-			<p>{{ doc.education }}</p>
-			<p>{{ doc.employment }}</p>
-		</div>
-
-		<div class="page">
-			<!-- Binding Test -->
-			<ul ng-repeat="skill in doc.skills track by $index"><li>{{ skill }}</li></ul>
-			<p>{{ doc.interests }}</p>
-		</div>
-	</div>
+	<resume id="resume" ng-if="tempsLoaded" doc="doc" template="temp.template"></resume>
 </div>

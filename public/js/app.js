@@ -69,6 +69,7 @@ app.config(function($routeProvider) {
 		templateUrl: 'templates/builder.html',
 		controller:  'BuilderCtrl',
 		title:       'Resume Builder',
+		css: 		 [ '../css/fonts.css', '../css/templates.css' ],
 		requireAuth: true
 	});
 
@@ -112,3 +113,58 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 
 	});
 }]);
+
+
+// load stylesheets dynamically by route
+app.directive('head', ['$rootScope','$compile', function($rootScope, $compile){
+        return {
+            restrict: 'E',
+            link: function(scope, elem){
+                var html = '<link rel="stylesheet" ng-repeat="(routeCtrl, cssUrl) in routeStyles" ng-href="{{cssUrl}}" />';
+                elem.append($compile(html)(scope));
+                scope.routeStyles = {};
+                $rootScope.$on('$routeChangeStart', function (e, next, current) {
+                    if(current && current.$$route && current.$$route.css){
+                        if(!Array.isArray(current.$$route.css)){
+                            current.$$route.css = [current.$$route.css];
+                        }
+                        angular.forEach(current.$$route.css, function(sheet){
+                            delete scope.routeStyles[sheet];
+                        });
+                    }
+                    if(next && next.$$route && next.$$route.css){
+                        if(!Array.isArray(next.$$route.css)){
+                            next.$$route.css = [next.$$route.css];
+                        }
+                        angular.forEach(next.$$route.css, function(sheet){
+                            scope.routeStyles[sheet] = sheet;
+                        });
+                    }
+                });
+            }
+        };
+	}
+]);
+
+
+// insert selected resume template into the DOM
+app.directive('resume', function ($compile) {
+    return {
+        restrict: 'E',
+        scope: {
+        	'doc': '=',
+        	'template': '='
+        },
+        link: function(scope, elt) {
+            scope.$watch('template', function(newValue, oldValue) {
+                if (newValue) {
+                	var element = angular.element(scope.template);
+                	var compiled = $compile(element)(scope);
+
+                	elt.empty();
+                	elt.append(compiled);
+                }
+            });
+        }
+    };
+});

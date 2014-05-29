@@ -1,5 +1,10 @@
 //--- Global ---//
 
+.cf:after
+	content: ''
+	display: table
+	clear: both
+
 #top-header
 	padding: 0 21px 31px
 	overflow: hidden
@@ -7,7 +12,14 @@
 	border-bottom: 2px solid #ccc
 
 	h1
-		color: #333
+		display: inline-block
+		padding: 7px
+		background-color: #fff
+		color: #222
+
+		-webkit-border-radius: 3px
+		-moz-border-radius: 3px
+		border-radius: 3px
 
 	nav
 		ul 

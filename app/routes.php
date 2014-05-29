@@ -23,6 +23,12 @@ Route::get('/account/user', array(
 	'uses'   => 'AccountController@getUser'
 ));
 
+Route::get('/app/templates', array(
+	'before' => 'auth',
+	'as'     => 'templates',
+	'uses'   => 'TemplateController@getTemplates'
+));
+
 // Unauthenticated group
 
 Route::post('/account/create', array(
