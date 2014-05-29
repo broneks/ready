@@ -73,6 +73,13 @@ app.config(function($routeProvider) {
 		requireAuth: true
 	});
 
+	$routeProvider.when('/app/job-matcher', {
+		templateUrl: 'templates/matcher.html',
+		controller:  'MatcherCtrl',
+		title:       'LinkedIn Job Matcher',
+		requireAuth: true
+	});
+
 	$routeProvider.otherwise({ redirectTo: '/' });
 });
 

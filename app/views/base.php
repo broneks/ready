@@ -9,6 +9,7 @@
 
 	<title ng-bind="'jobReady | ' + title">jobReady</title>
 
+	<link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" href="/css/normalize.min.css">
 	<link rel="stylesheet" href="/css/main.css">
 </head>

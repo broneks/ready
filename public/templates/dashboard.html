@@ -1,11 +1,19 @@
 <header id="dash-header">
-	<h1>Your Dashboard</h1>
-	<h2 ng-show="user">Welcome, {{ user }}!</h2>
+	<div>
+		<h1>Your Dashboard</h1>
+		<h2 ng-show="user">Welcome, {{ user }}!</h2>
+	</div>
+
+	<button>Sign In With LinkedIn</button>
 </header>
+
+<div class="cf"></div>
 
 <div id="dash">
 	<section id="saved">
 		Saved Documents
+
+		<p><em>No Saved Documents... Yet!</em></p>
 	</section>
 
 	<section id="builder">
@@ -13,6 +21,6 @@
 	</section>
 
 	<section id="matcher">
-		Job Matcher
+		<a href="#/app/job-matcher">Go to Job Matcher</a>
 	</section>
 </div>

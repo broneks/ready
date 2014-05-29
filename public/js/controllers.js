@@ -68,6 +68,15 @@ app.controller('BuilderCtrl', ['$scope', '$http', function($scope, $http) {
 }]);
 
 
+//--- Job Matcher ---//
+
+app.controller('MatcherCtrl', ['$scope', function($scope) {
+	
+
+
+}]);
+
+
 
 //--- Register ---//
 
