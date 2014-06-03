@@ -54,6 +54,22 @@
 	<script src="/js/vendors/angular-sanitize.min.js"></script>
 	<script src="/js/app.js"></script>
 	<script>angular.module('jobReady').constant('TOKEN', {'csrf_token': '<?= csrf_token() ?>'});</script>
+	<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+		api_key: 77noaiszyyly3g
+		onLoad: onLinkedInLoad
+		authorize: true
+	</script>
+	<script>
+		function onLinkedInLoad() {
+			IN.Event.on(IN, 'auth', function() {
+				angular.element(document.getElementById('main')).scope().$apply(
+					function($scope) {
+						$scope.getLinkedInData();
+					}
+				);
+			});
+		}
+	</script>
 	<script src="/js/services.js"></script>
 	<script src="/js/controllers.js"></script>
 </body>

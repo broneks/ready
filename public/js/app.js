@@ -88,8 +88,6 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 	
 	$rootScope.signedIn = AccountService.isSignedIn();
 
-	console.log(AccountService.isSignedIn());
-
 	// Block unauthenticated users from pages that require auth
 	$rootScope.$on('$routeChangeStart', function(event, next, current) {
 		if (next.requireAuth && !AccountService.isSignedIn()) {

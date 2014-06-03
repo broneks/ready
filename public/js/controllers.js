@@ -14,19 +14,39 @@ app.controller('HomeCtrl', ['$scope', function($scope) {
 
 //--- Dashboard ---//
 
-app.controller('DashboardCtrl', ['$scope', '$http', 'AccountService', function($scope, $http, AccountService, user) {
+app.controller('DashboardCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
 	
 	$http.get('/account/user', { cache: true }).success(function(data) { 
 		$scope.user = data.username; 
-
 	});
+
+	// note: refreshing resume builder page messes up rootscope data ***
+
+	// getting linkedin profile data
+	$scope.getLinkedInData = function() {
+		if (!$rootScope.hasOwnProperty('linkedin')) {
+			IN.API.Profile('me')
+				.fields(['formatted-name','industry','headline','summary','educations','positions','skills'])
+      			.result(function(result) {
+
+      				$rootScope.$apply(function() {
+      					var linkedin = result.values[0];
+      					$rootScope.linkedin = linkedin;
+
+      					console.log($rootScope.linkedin);
+      				});
+      			});
+		}
+	};
 
 }]);
 
 
 //--- Resume Builder ---//
 
-app.controller('BuilderCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+
+	console.log($rootScope.linkedin);
 
 	$http.get('/app/templates', { cache: true }).success(function(data) {
 		$scope.templates = data;
@@ -53,7 +73,7 @@ app.controller('BuilderCtrl', ['$scope', '$http', function($scope, $http) {
 	$scope.doc = {
 		template: '',
 		font: '',
-		name: 'Jack Toulemonde',
+		name: '',
 		address: '123 Queen Street West',
 		phone: '(416) 555 1234',
 		email: 'jtmonde@gmail.com',
@@ -64,6 +84,11 @@ app.controller('BuilderCtrl', ['$scope', '$http', function($scope, $http) {
 		skills: ['Web Development', 'JavaScript', 'PHP', 'RWD', 'Carpentry'],
 		interests: 'Hiking and kayaking'
 	};
+
+	// quick test
+	if ($rootScope.linkedin) {
+		$scope.doc.name = $rootScope.linkedin.formattedName;
+	}
 
 }]);
 

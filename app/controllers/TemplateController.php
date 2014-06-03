@@ -1,5 +1,5 @@
 <?php
-class TemplateController extends \BaseController {
+class TemplateController extends BaseController {
 
 	public function getTemplates()
 	{
