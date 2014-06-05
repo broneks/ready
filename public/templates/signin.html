@@ -1,17 +1,17 @@
-<form ng-submit="signin()" method="post">
-	<div class="field">
-		Email:
-		<input type="text" name="email" placeholder="email" ng-model="credentials.email">
+<form id="signin-form" ng-submit="signin()" method="post">
+	<div class="l-field">
+		<label for="s-email">Email</label>
+		<input type="text" id="s-email" name="email" placeholder="email" ng-model="credentials.email">
 	</div>
 
-	<div class="field">
-		Password:
-		<input type="password" name="password" placeholder="password" ng-model="credentials.password">
+	<div class="l-field">
+		<label for="s-password">Password</label>
+		<input type="password" id="s-password" name="password" placeholder="password" ng-model="credentials.password">
 	</div>
 
-	<div class="field">
+	<div class="l-field">
 		<label for="remember">Remember Me</label>
-		<input type="checkbox" name="remember" id="remember" ng-model="credentials.remember">
+		<input type="checkbox" id="remember" name="remember" ng-model="credentials.remember">
 	</div>
 	
 	<input type="submit" value="Sign In">

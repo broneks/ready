@@ -86,8 +86,8 @@ app.config(function($routeProvider) {
 });
 
 
-app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($location, $rootScope, AccountService, FlashService) {
-	
+app.run(['$location', '$rootScope', 'AccountService', 'FlashService', 'localStorageService', function($location, $rootScope, AccountService, FlashService, localStorageService) {
+
 	$rootScope.signedIn = AccountService.isSignedIn();
 
 	// Block unauthenticated users from pages that require auth
@@ -121,7 +121,29 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 			$rootScope.title = current.$$route.title;
 		}
 	});
+
+	// getting linkedin profile data
+	$rootScope.getLinkedInData = function() {
+		if (!localStorageService.get('linkedin')) {
+			IN.API.Profile('me')
+				.fields(['formatted-name','industry','headline','email-address','phone-numbers','summary','educations','positions','skills','interests'])
+      			.result(function(result) {
+      				localStorageService.set('linkedin', result.values[0]);
+      			});
+		}
+	};
 }]);
+
+
+function onLinkedInLoad() {
+	IN.Event.on(IN, 'auth', function() {
+		angular.element(jQuery('#main')).scope().$apply(
+			function($scope) {
+				$scope.getLinkedInData();
+			}
+		);
+	});
+}
 
 
 // load stylesheets dynamically by route

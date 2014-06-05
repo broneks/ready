@@ -1,22 +1,22 @@
-<form ng-submit="register()" method="post">
-	<div class="field">
-		Email: 
-		<input type="text" name="email" ng-model="details.email">
+<form id="register-form" ng-submit="register()" method="post">
+	<div class="l-field">
+		<label for="r-email">Email</label> 
+		<input type="text" id="r-email" name="email" placeholder="email" ng-model="details.email">
 	</div>
 
-	<div class="field">
-		Username: 
-		<input type="text" name="username" ng-model="details.username">
+	<div class="l-field">
+		<label for="r-username">Username</label> 
+		<input type="text" id="r-username" name="username" placeholder="username" ng-model="details.username">
 	</div>
 
-	<div class="field">
-		Password: 
-		<input type="password" name="password" ng-model="details.password">
+	<div class="l-field">
+		<label for="r-password">Password</label> 
+		<input type="password" id="r-password" name="password" placeholder="password" ng-model="details.password">
 	</div>
 
-	<div class="field">
-		Password Again: 
-		<input type="password" name="password_again" ng-model="details.password_again">
+	<div class="l-field">
+		<label for="r-password-again">Password Again</label> 
+		<input type="password" id="r-password-again" name="password_again" placeholder="repeat password" ng-model="details.password_again">
 	</div>
 		
 	<input type="submit" value="Create Account">

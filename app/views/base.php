@@ -10,6 +10,7 @@
 	<title ng-bind="'jobReady | ' + title">jobReady</title>
 
 	<link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="/css/normalize.min.css">
 	<link rel="stylesheet" href="/css/main.css">
 </head>
@@ -40,6 +41,10 @@
 				</li>
 			</ul>
 		</nav>
+
+		<div id="linkedin-button" ng-if="signedIn">
+			<script type="IN/Login"></script>
+		</div>
 	</header>
 
 	<ul id="flash" ng-if="flash" ng-repeat="(key, f) in flash" ng-cloak>

@@ -4,6 +4,17 @@
   clear: both;
 }
 
+.center {
+  text-align: center;
+}
+
+body {
+  font-family: "Ubuntu", sans-serif;
+}
+body h1, body h2, body h3, body h4, body h5, body h6 {
+  font-weight: normal;
+}
+
 #top-header {
   padding: 0 21px 31px;
   overflow: hidden;
@@ -12,12 +23,9 @@
 }
 #top-header h1 {
   display: inline-block;
-  padding: 7px;
+  padding: 7px 12px;
   background-color: white;
-  color: #222222;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  color: #444444;
 }
 #top-header nav ul {
   padding: 0;
@@ -29,8 +37,13 @@
 #top-header nav li + li {
   padding-left: 21px;
 }
+#top-header #linkedin-button {
+  display: inline-block;
+  margin-left: 31px;
+}
 
 #flash {
+  list-style: square;
   color: red;
 }
 
@@ -38,16 +51,40 @@
   padding: 0 21px;
 }
 
+.l-field + .l-field {
+  margin-top: 15px;
+}
+
+#signin-form,
+#register-form {
+  padding-top: 21px;
+}
+#signin-form label,
+#register-form label {
+  display: inline-block;
+}
+#signin-form input[type=submit],
+#register-form input[type=submit] {
+  width: 150px;
+  margin-top: 31px;
+  padding: 4px 0;
+  border: 0;
+  font-size: 1.1em;
+  color: white;
+  background-color: #00abe0;
+}
+
+#signin-form label {
+  width: 110px;
+}
+
+#register-form label {
+  width: 130px;
+}
+
 #dash-header {
-  min-height: 109px;
-}
-#dash-header div {
-  width: 20%;
-  float: left;
-}
-#dash-header .IN-widget {
-  margin: 50px 0 0 370px;
-  float: left;
+  min-height: 50px;
+  padding: 20px 0;
 }
 
 #dash {
@@ -109,6 +146,18 @@
 }
 #rb-left #options {
   margin-top: 30px;
+}
+#rb-left input[type=button] {
+  width: 160px;
+  margin-top: 31px;
+  padding: 8px 0;
+  border: 0;
+  font-size: 1.1em;
+  color: white;
+  background-color: #00abe0;
+}
+#rb-left input[type=button] + input[type=button] {
+  margin-left: 31px;
 }
 
 #rb-right {

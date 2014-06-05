@@ -14,43 +14,15 @@ app.controller('HomeCtrl', ['$scope', function($scope) {
 
 //--- Dashboard ---//
 
-app.controller('DashboardCtrl', ['$scope', '$http', 'localStorageService', function($scope, $http, localStorageService) {
+app.controller('DashboardCtrl', ['$scope', '$http', function($scope, $http) {
 
-	// ..... test
-	console.log(localStorageService.get('linkedin'));
-
-	// append linkedin script to body
 	if (!jQuery('script[src="http://platform.linkedin.com/in.js"]').length) jQuery('<script type="text/javascript" src="http://platform.linkedin.com/in.js">api_key: 77noaiszyyly3g \n onLoad: onLinkedInLoad \n authorize: true \n </script>').appendTo('body');
 
 	// get user
 	$http.get('/account/user', { cache: true }).success(function(data) { 
 		$scope.user = data.username; 
 	});
-
-	// note: refreshing resume builder page messes up rootscope data ***
-
-	// getting linkedin profile data
-	$scope.getLinkedInData = function() {
-		if (!localStorageService.get('linkedin')) {
-			IN.API.Profile('me')
-				.fields(['formatted-name','industry','headline','email-address','phone-numbers','summary','educations','positions','skills','interests'])
-      			.result(function(result) {
-      				localStorageService.set('linkedin', result.values[0]);
-      			});
-		}
-	};
-
 }]);
-
-function onLinkedInLoad() {
-	IN.Event.on(IN, 'auth', function() {
-		angular.element(jQuery('#main')).scope().$apply(
-			function($scope) {
-				$scope.getLinkedInData();
-			}
-		);
-	});
-}
 
 
 //--- Resume Builder ---//
