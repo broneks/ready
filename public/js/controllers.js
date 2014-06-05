@@ -14,8 +14,15 @@ app.controller('HomeCtrl', ['$scope', function($scope) {
 
 //--- Dashboard ---//
 
-app.controller('DashboardCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
-	
+app.controller('DashboardCtrl', ['$scope', '$http', 'localStorageService', function($scope, $http, localStorageService) {
+
+	// ..... test
+	console.log(localStorageService.get('linkedin'));
+
+	// append linkedin script to body
+	if (!jQuery('script[src="http://platform.linkedin.com/in.js"]').length) jQuery('<script type="text/javascript" src="http://platform.linkedin.com/in.js">api_key: 77noaiszyyly3g \n onLoad: onLinkedInLoad \n authorize: true \n </script>').appendTo('body');
+
+	// get user
 	$http.get('/account/user', { cache: true }).success(function(data) { 
 		$scope.user = data.username; 
 	});
@@ -24,30 +31,32 @@ app.controller('DashboardCtrl', ['$scope', '$rootScope', '$http', function($scop
 
 	// getting linkedin profile data
 	$scope.getLinkedInData = function() {
-		if (!$rootScope.hasOwnProperty('linkedin')) {
+		if (!localStorageService.get('linkedin')) {
 			IN.API.Profile('me')
-				.fields(['formatted-name','industry','headline','summary','educations','positions','skills'])
+				.fields(['formatted-name','industry','headline','email-address','phone-numbers','summary','educations','positions','skills','interests'])
       			.result(function(result) {
-
-      				$rootScope.$apply(function() {
-      					var linkedin = result.values[0];
-      					$rootScope.linkedin = linkedin;
-
-      					console.log($rootScope.linkedin);
-      				});
+      				localStorageService.set('linkedin', result.values[0]);
       			});
 		}
 	};
 
 }]);
 
+function onLinkedInLoad() {
+	IN.Event.on(IN, 'auth', function() {
+		angular.element(jQuery('#main')).scope().$apply(
+			function($scope) {
+				$scope.getLinkedInData();
+			}
+		);
+	});
+}
+
 
 //--- Resume Builder ---//
 
-app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
-
-	console.log($rootScope.linkedin);
-
+app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', 'localStorageService', function($scope, $rootScope, $http, localStorageService) {
+	
 	$http.get('/app/templates', { cache: true }).success(function(data) {
 		$scope.templates = data;
 
@@ -70,26 +79,41 @@ app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', function($scope,
 		}
 	};
 
-	$scope.doc = {
-		template: '',
-		font: '',
-		name: '',
-		address: '123 Queen Street West',
-		phone: '(416) 555 1234',
-		email: 'jtmonde@gmail.com',
-		website: 'jtmonde.com',
-		about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate non sem ut viverra. Curabitur at molestie mauris. Etiam eu est vel metus rhoncus consequat ut eget tortor. In metus risus, viverra in justo ac, facilisis volutpat ligula. In id est in quam hendrerit adipiscing et ac orci. Curabitur nunc eros, malesuada sit amet tincidunt blandit, tincidunt a neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. ',
-		education: 'Proin at aliquet nunc. Donec vitae tortor eu felis placerat facilisis ut consectetur nisi. Quisque ac massa erat. Ut a turpis interdum, viverra nunc a, faucibus felis. ',
-		experience: 'Maecenas nisi purus, mollis ac quam at, posuere molestie nibh. Etiam et sem eu urna mollis ultricies.',
-		skills: ['Web Development', 'JavaScript', 'PHP', 'RWD', 'Carpentry'],
-		interests: 'Hiking and kayaking'
-	};
+	if (!$scope.doc && localStorageService.get('linkedin')) {
 
-	// quick test
-	if ($rootScope.linkedin) {
-		$scope.doc.name = $rootScope.linkedin.formattedName;
+		var l = localStorageService.get('linkedin');
+
+		$scope.doc = {
+			template: 	'',
+			font: 		'',
+			name: 		l.formattedName,
+			address: 	'',
+			phone: 		'',
+			email: 		'',
+			website: 	'',
+			about: 		l.summary,
+			education: 	'',
+			experience: '',
+			skills: 	[],
+			interests: 	''
+		};
+
+	} else {
+		$scope.doc = {
+			template: 	'',
+			font: 		'',
+			name: 		'',
+			address: 	'',
+			phone: 		'',
+			email: 		'',
+			website: 	'',
+			about: 		'',
+			education: 	'',
+			experience: '',
+			skills: 	[],
+			interests: 	''
+		};
 	}
-
 }]);
 
 
@@ -135,10 +159,16 @@ app.controller('SigninCtrl', ['$scope', '$location', 'AccountService', function(
 
 //--- Sign Out ---//
 
-app.controller('SignoutCtrl', ['$scope', '$location', 'AccountService', function($scope, $location, AccountService) {
+app.controller('SignoutCtrl', ['$scope', '$location', 'AccountService', 'localStorageService', function($scope, $location, AccountService, localStorageService) {
 
 	if (AccountService.isSignedIn()) {
 		AccountService.signout().success(function() {
+			// remove linkedin iframe and script from DOM
+			jQuery('iframe, script[src="http://platform.linkedin.com/in.js"]').remove();
+
+			// *** UN-COMMENT LATER ***
+			// localStorageService.clearAll();
+
 			$location.path('/');
 		});
 	}

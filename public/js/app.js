@@ -3,9 +3,9 @@
 //-----------//
 
 
-var app = angular.module('jobReady', ['ngRoute', 'ngSanitize']);
+var app = angular.module('jobReady', ['ngRoute', 'LocalStorageModule']);
 
-app.config(function($httpProvider) {
+app.config(['$httpProvider', 'localStorageServiceProvider', function($httpProvider, localStorageServiceProvider) {
 	var logsOutUserOn401 = function($location, $q, SessionService, FlashService) {
 		var success = function(response) {
 			return response;
@@ -27,7 +27,9 @@ app.config(function($httpProvider) {
 	};
 
 	$httpProvider.responseInterceptors.push(logsOutUserOn401);
-});
+
+	localStorageServiceProvider.setPrefix('jobready');
+}]);
 
 app.config(function($routeProvider) {
 	$routeProvider.when('/', {
@@ -104,18 +106,20 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', function($
 		return false;
 	});
 
-	// Set page title dynamically
 	$rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
 
 		$rootScope.signedIn = AccountService.isSignedIn();
 
-		if (current && $rootScope.flash)
-			if (current.originalPath !== $rootScope.flash.path)
+		if (current && $rootScope.flash) {
+			if (current.originalPath !== $rootScope.flash.path) {
 				FlashService.clear();
+			}
+		}
 		
-		if (current.hasOwnProperty('$$route')) 
+		// Set page title dynamically
+		if (current.hasOwnProperty('$$route')) {
 			$rootScope.title = current.$$route.title;
-
+		}
 	});
 }]);
 
@@ -153,7 +157,7 @@ app.directive('head', ['$rootScope','$compile', function($rootScope, $compile){
 
 
 // insert selected resume template into the DOM
-app.directive('resume', function ($compile) {
+app.directive('resume', ['$compile', function ($compile) {
     return {
         restrict: 'E',
         scope: {
@@ -172,4 +176,4 @@ app.directive('resume', function ($compile) {
             });
         }
     };
-});
+}]);
