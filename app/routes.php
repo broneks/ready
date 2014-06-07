@@ -6,6 +6,17 @@ Route::get('/', array(
 	'uses' => 'HomeController@getHome'
 ));
 
+//----- PDF Download-----//
+
+Route::post('/pdf/make', array(
+	'before' => 'auth',
+	'uses'   => 'TemplateController@postPDF'
+));
+
+Route::get('/pdf/get', array(
+	'beofre' => 'auth',
+	'uses'   => 'TemplateController@getPDF'
+));
 
 //----- Auth -----//
 

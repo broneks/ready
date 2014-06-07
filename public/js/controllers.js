@@ -6,7 +6,7 @@
 //--- Home ---//
 
 app.controller('HomeCtrl', ['$scope', function($scope) {
-	
+
 
 
 }]);
@@ -29,6 +29,7 @@ app.controller('DashboardCtrl', ['$scope', '$http', function($scope, $http) {
 
 app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', 'localStorageService', function($scope, $rootScope, $http, localStorageService) {
 	
+	// resume templates
 	$http.get('/app/templates', { cache: true }).success(function(data) {
 		$scope.templates = data;
 
@@ -51,6 +52,7 @@ app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', 'localStorageSer
 		}
 	};
 
+	// user inputs
 	if (!$scope.doc && localStorageService.get('linkedin')) {
 
 		var l = localStorageService.get('linkedin');
@@ -86,6 +88,18 @@ app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', 'localStorageSer
 			interests: 	''
 		};
 	}
+
+	// outputing the resume as a PDF
+	$scope.downloadPDF = function() {
+
+		// *** triangle image in template #2 causes a problem (path issue) ***
+
+		var html$ = jQuery('#resume').html();
+
+		$http.post('/pdf/make', { html: html$ }).success(function() {
+			window.location.href = 'http://' + window.location.host + '/pdf/get';
+		});	
+	};
 }]);
 
 
