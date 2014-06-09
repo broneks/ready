@@ -34,7 +34,6 @@ app.config(['$httpProvider', 'localStorageServiceProvider', function($httpProvid
 app.config(function($routeProvider) {
 	$routeProvider.when('/', {
 		templateUrl: 'templates/home.html',
-		controller:  'HomeCtrl',
 		title: 		 'Home',
 		requireAuth: false
 	});
@@ -110,6 +109,7 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', 'localStor
 
 		$rootScope.signedIn = AccountService.isSignedIn();
 
+		// clear old flash messages on route change
 		if (current && $rootScope.flash) {
 			if (current.originalPath !== $rootScope.flash.path) {
 				FlashService.clear();
@@ -150,21 +150,23 @@ function onLinkedInLoad() {
 app.directive('head', ['$rootScope','$compile', function($rootScope, $compile){
         return {
             restrict: 'E',
+
             link: function(scope, elem){
                 var html = '<link rel="stylesheet" ng-repeat="(routeCtrl, cssUrl) in routeStyles" ng-href="{{cssUrl}}" />';
                 elem.append($compile(html)(scope));
                 scope.routeStyles = {};
+
                 $rootScope.$on('$routeChangeStart', function (e, next, current) {
-                    if(current && current.$$route && current.$$route.css){
-                        if(!Array.isArray(current.$$route.css)){
+                    if (current && current.$$route && current.$$route.css){
+                        if (!Array.isArray(current.$$route.css)){
                             current.$$route.css = [current.$$route.css];
                         }
                         angular.forEach(current.$$route.css, function(sheet){
                             delete scope.routeStyles[sheet];
                         });
                     }
-                    if(next && next.$$route && next.$$route.css){
-                        if(!Array.isArray(next.$$route.css)){
+                    if (next && next.$$route && next.$$route.css){
+                        if (!Array.isArray(next.$$route.css)){
                             next.$$route.css = [next.$$route.css];
                         }
                         angular.forEach(next.$$route.css, function(sheet){
@@ -200,10 +202,12 @@ app.directive('resume', ['$compile', function ($compile) {
     };
 }]);
 
+
 // convert MySQL datetime string to Angular datetime string
 app.filter('asDate', function() {
   return function(original) {
     var converted = original.replace(/(.+) (.+)/, '$1T$2Z');
+
     return converted;
   };
 });

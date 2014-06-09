@@ -6,7 +6,8 @@ Route::get('/', array(
 	'uses' => 'HomeController@getHome'
 ));
 
-//----- Save a Doc -----//
+
+//----- Saved Docs -----//
 
 Route::post('/doc/save', array(
 	'before' => 'auth',
@@ -23,6 +24,7 @@ Route::post('/doc/get', array(
 	'uses'   => 'DocController@postGetDoc'
 ));
 
+
 //----- PDF Download-----//
 
 Route::post('/pdf/make', array(
@@ -34,6 +36,7 @@ Route::get('/pdf/get', array(
 	'before' => 'auth',
 	'uses'   => 'DocController@getPDF'
 ));
+
 
 //----- Auth -----//
 

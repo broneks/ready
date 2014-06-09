@@ -97,6 +97,9 @@ body h1, body h2, body h3, body h4, body h5, body h6 {
   margin-top: 50px;
   color: #777777;
 }
+#dash ul li {
+  text-align: left;
+}
 #dash #saved,
 #dash #builder,
 #dash #matcher {

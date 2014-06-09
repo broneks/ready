@@ -12,7 +12,7 @@
 			<li ng-if="savedDocs" ng-repeat="doc in savedDocs | orderBy: '-created'">
 				<a href="#/app/resume-builder/{{ doc.id }}">{{ doc.title }} - {{ doc.created | asDate | date:'dd MMMM yyyy'}}</a>
 			</li>
-			<li ng-if="contentLoaded && !savedDocs">You Have no Saved Docs!</li>
+			<li ng-if="docsLoaded && !savedDocs.length">You Have no Saved Docs!</li>
 		</ul>
 	</section>
 

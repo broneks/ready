@@ -3,14 +3,6 @@
 //-------------------------//
 
 
-//--- Home ---//
-
-app.controller('HomeCtrl', ['$scope', function($scope) {
-
-
-
-}]);
-
 
 //--- Dashboard ---//
 
@@ -26,7 +18,7 @@ app.controller('DashboardCtrl', ['$scope', '$http', function($scope, $http) {
 
 	$http.get('/doc/list').success(function(data) {
 		$scope.savedDocs = data;
-		$scope.contentLoaded = true;
+		$scope.docsLoaded = true;
 	});
 }]);
 
@@ -50,6 +42,7 @@ app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageS
 		$scope.tempsLoaded = true;
 	});
 
+	// change temp variable to reflect selected drop down item
 	$scope.changeTemplate = function(id) {
 		for (var i = 0; i < $scope.templates.length; i++) {
 			var item = $scope.templates[i];
@@ -62,6 +55,8 @@ app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageS
 	};
 
 	// user inputs
+	
+	// if the url contains a document id parameter
 	if ($routeParams.docId) {
 
 		$http.post('/doc/get', { id: $routeParams.docId })
@@ -80,6 +75,7 @@ app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageS
 			};
 		});
 
+	// else if logged in with linkedin
 	} else if (!$scope.doc && localStorageService.get('linkedin')) {
 
 		var l = localStorageService.get('linkedin');
@@ -112,10 +108,10 @@ app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageS
 		};
 	}
 
-	// Save the draft document
+	// save the draft document
 	$scope.saveDoc = function() {
 		var doc = {
-			title: prompt('Save Your Project As: ', 'project title'),
+			title: prompt('Save you doc as: ', 'doc title'),
 			temp: $scope.temp.id,
 			data: JSON.stringify($scope.doc)
 		};
