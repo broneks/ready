@@ -16,27 +16,36 @@ app.controller('HomeCtrl', ['$scope', function($scope) {
 
 app.controller('DashboardCtrl', ['$scope', '$http', function($scope, $http) {
 
+	// insert linkedin script if it is not there
 	if (!jQuery('script[src="http://platform.linkedin.com/in.js"]').length) jQuery('<script type="text/javascript" src="http://platform.linkedin.com/in.js">api_key: 77noaiszyyly3g \n onLoad: onLinkedInLoad \n authorize: true \n </script>').appendTo('body');
 
 	// get user
 	$http.get('/account/user', { cache: true }).success(function(data) { 
 		$scope.user = data.username; 
 	});
+
+	$http.get('/doc/list').success(function(data) {
+		$scope.savedDocs = data;
+		$scope.contentLoaded = true;
+	});
 }]);
 
 
 //--- Resume Builder ---//
 
-app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', 'localStorageService', function($scope, $rootScope, $http, localStorageService) {
+app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageService', function($scope, $http, $routeParams, localStorageService) {
 	
 	// resume templates
 	$http.get('/app/templates', { cache: true }).success(function(data) {
 		$scope.templates = data;
 
-		$scope.temp = {
-			id: 	  $scope.templates[0].id,
-			template: $scope.templates[0].template
-		};
+		// if user is not opening a saved doc
+		if (!$routeParams.docId) {
+			$scope.temp = {
+				id: 	  $scope.templates[0].id,
+				template: $scope.templates[0].template
+			};
+		}
 
 		$scope.tempsLoaded = true;
 	});
@@ -53,13 +62,29 @@ app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', 'localStorageSer
 	};
 
 	// user inputs
-	if (!$scope.doc && localStorageService.get('linkedin')) {
+	if ($routeParams.docId) {
+
+		$http.post('/doc/get', { id: $routeParams.docId })
+		.success(function(data) {
+			$scope.doc = JSON.parse(data.doc);
+
+			$scope.temp = {
+				id: 	  data.templateId,
+				template: data.template
+			};
+		})
+		.error(function() {
+			$scope.temp = {
+				id: 	  $scope.templates[0].id,
+				template: $scope.templates[0].template
+			};
+		});
+
+	} else if (!$scope.doc && localStorageService.get('linkedin')) {
 
 		var l = localStorageService.get('linkedin');
 
 		$scope.doc = {
-			template: 	'',
-			font: 		'',
 			name: 		l.formattedName,
 			address: 	'',
 			phone: 		'',
@@ -74,8 +99,6 @@ app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', 'localStorageSer
 
 	} else {
 		$scope.doc = {
-			template: 	'',
-			font: 		'',
 			name: 		'',
 			address: 	'',
 			phone: 		'',
@@ -89,11 +112,23 @@ app.controller('BuilderCtrl', ['$scope', '$rootScope', '$http', 'localStorageSer
 		};
 	}
 
-	// outputing the resume as a PDF
+	// Save the draft document
+	$scope.saveDoc = function() {
+		var doc = {
+			title: prompt('Save Your Project As: ', 'project title'),
+			temp: $scope.temp.id,
+			data: JSON.stringify($scope.doc)
+		};
+
+		if (doc.title) {
+			$http.post('/doc/save', doc).success(function() {
+				alert('Your doc was successfully saved!');
+			});
+		}
+	};
+
+	// output the resume as a PDF
 	$scope.downloadPDF = function() {
-
-		// *** triangle image in template #2 causes a problem (path issue) ***
-
 		var html$ = jQuery('#resume').html();
 
 		$http.post('/pdf/make', { html: html$ }).success(function() {

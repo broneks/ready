@@ -6,16 +6,33 @@ Route::get('/', array(
 	'uses' => 'HomeController@getHome'
 ));
 
+//----- Save a Doc -----//
+
+Route::post('/doc/save', array(
+	'before' => 'auth',
+	'uses'   => 'DocController@postSaveDoc'
+));
+
+Route::get('/doc/list', array(
+	'before' => 'auth',
+	'uses'   => 'DocController@getDocList'
+));
+
+Route::post('/doc/get', array(
+	'before' => 'auth',
+	'uses'   => 'DocController@postGetDoc'
+));
+
 //----- PDF Download-----//
 
 Route::post('/pdf/make', array(
 	'before' => 'auth',
-	'uses'   => 'TemplateController@postPDF'
+	'uses'   => 'DocController@postPDF'
 ));
 
 Route::get('/pdf/get', array(
-	'beofre' => 'auth',
-	'uses'   => 'TemplateController@getPDF'
+	'before' => 'auth',
+	'uses'   => 'DocController@getPDF'
 ));
 
 //----- Auth -----//

@@ -67,7 +67,7 @@ app.config(function($routeProvider) {
 		requireAuth: true
 	});
 
-	$routeProvider.when('/app/resume-builder', {
+	$routeProvider.when('/app/resume-builder/:docId?', {
 		templateUrl: 'templates/builder.html',
 		controller:  'BuilderCtrl',
 		title:       'Resume Builder',
@@ -122,7 +122,7 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', 'localStor
 		}
 	});
 
-	// getting linkedin profile data
+	// get linkedin profile data
 	$rootScope.getLinkedInData = function() {
 		if (!localStorageService.get('linkedin')) {
 			IN.API.Profile('me')
@@ -199,3 +199,11 @@ app.directive('resume', ['$compile', function ($compile) {
         }
     };
 }]);
+
+// convert MySQL datetime string to Angular datetime string
+app.filter('asDate', function() {
+  return function(original) {
+    var converted = original.replace(/(.+) (.+)/, '$1T$2Z');
+    return converted;
+  };
+});

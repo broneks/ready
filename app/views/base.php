@@ -37,7 +37,7 @@
 					<a href="#/app/dashboard">Dashboard</a>
 				</li>
 				<li>
-					<a href="#/account/sign-out">Sign Out</a>
+					<a href="#/account/sign-out" onclick="return confirm('Sign Out of jobReady? \n\n * Any unsaved resumes will be lost *');">Sign Out</a>
 				</li>
 			</ul>
 		</nav>
