@@ -9,7 +9,7 @@
 app.controller('DashboardCtrl', ['$scope', '$http', function($scope, $http) {
 
 	// insert linkedin script if it is not there
-	if (!jQuery('script[src="http://platform.linkedin.com/in.js"]').length) jQuery('<script type="text/javascript" src="http://platform.linkedin.com/in.js">api_key: 77noaiszyyly3g \n onLoad: onLinkedInLoad \n authorize: true \n </script>').appendTo('body');
+	if (!jQuery('script[src="http://platform.linkedin.com/in.js"]').length) jQuery('<script>delete IN;</script><script type="text/javascript" src="http://platform.linkedin.com/in.js">api_key: 77noaiszyyly3g \n onLoad: onLinkedInLoad \n authorize: true \n </script>').appendTo('body');
 
 	// get user
 	$http.get('/account/user', { cache: true }).success(function(data) { 
@@ -111,7 +111,7 @@ app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageS
 	// save the draft document
 	$scope.saveDoc = function() {
 		var doc = {
-			title: prompt('Save you doc as: ', 'doc title'),
+			title: prompt('Save your doc as: ', 'doc title'),
 			temp: $scope.temp.id,
 			data: JSON.stringify($scope.doc)
 		};

@@ -18,14 +18,19 @@ body h1, body h2, body h3, body h4, body h5, body h6 {
 #top-header {
   padding: 0 21px 31px;
   overflow: hidden;
-  background-color: #dddddd;
-  border-bottom: 2px solid #cccccc;
+  background-color: #00abe0;
+  border-bottom: 3px solid #47d3ff;
 }
 #top-header h1 {
   display: inline-block;
-  padding: 7px 12px;
+  padding: 7px 21px;
   background-color: white;
   color: #444444;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 7px 7px 0 #47d3ff;
+  box-shadow: 7px 7px 0 #47d3ff;
 }
 #top-header nav ul {
   padding: 0;
@@ -34,8 +39,15 @@ body h1, body h2, body h3, body h4, body h5, body h6 {
 #top-header nav li {
   float: left;
 }
-#top-header nav li + li {
-  padding-left: 21px;
+#top-header nav li a {
+  padding: 15px 21px;
+  font-size: 1.2em;
+  text-decoration: none;
+  color: white;
+  outline: none;
+}
+#top-header nav li a:hover {
+  text-decoration: underline;
 }
 #top-header #linkedin-button {
   display: inline-block;
@@ -49,6 +61,37 @@ body h1, body h2, body h3, body h4, body h5, body h6 {
 
 #main {
   padding: 0 21px;
+}
+
+html,
+body,
+#main {
+  height: 91.5%;
+}
+
+#landing {
+  overflow: hidden;
+  height: 100%;
+  margin: 0 -21px;
+  background: url("../img/desk2.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+#landing > div {
+  width: 50%;
+  margin: 40px auto;
+  text-align: center;
+}
+#landing h2 {
+  display: inline-block;
+  margin: 5px auto;
+  padding: 25px;
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 .l-field + .l-field {
@@ -84,7 +127,7 @@ body h1, body h2, body h3, body h4, body h5, body h6 {
 
 #dash-header {
   min-height: 50px;
-  padding: 20px 0;
+  padding: 21px;
 }
 
 #dash {
@@ -97,8 +140,27 @@ body h1, body h2, body h3, body h4, body h5, body h6 {
   margin-top: 50px;
   color: #777777;
 }
+#dash ul {
+  overflow-y: auto;
+  max-height: 300px;
+  width: 80%;
+  margin-left: 30px;
+}
 #dash ul li {
   text-align: left;
+  padding: 7px;
+}
+#dash ul li + li {
+  padding-top: 10px;
+}
+#dash ul li .title {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+#dash ul li .date {
+  font-size: 0.9em;
+  font-style: italic;
+  color: #777777;
 }
 #dash #saved,
 #dash #builder,
@@ -109,9 +171,19 @@ body h1, body h2, body h3, body h4, body h5, body h6 {
   padding: 19px 0;
   text-align: center;
 }
+#dash #saved .big,
+#dash #builder .big,
+#dash #matcher .big {
+  font-size: 1.2em;
+}
 #dash #builder,
 #dash #matcher {
   border-left: 1px solid #cccccc;
+}
+#dash #builder img,
+#dash #matcher img {
+  display: block;
+  margin: 80px auto;
 }
 
 #rb-left, #rb-right {
@@ -168,7 +240,7 @@ body h1, body h2, body h3, body h4, body h5, body h6 {
   min-height: 900px;
   overflow-y: scroll;
   padding-bottom: 300px;
-  background-color: #efefef;
+  background-color: #f2f2f2;
 }
 #rb-right > h3 {
   margin-top: 0;

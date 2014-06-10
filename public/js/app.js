@@ -34,7 +34,7 @@ app.config(['$httpProvider', 'localStorageServiceProvider', function($httpProvid
 app.config(function($routeProvider) {
 	$routeProvider.when('/', {
 		templateUrl: 'templates/home.html',
-		title: 		 'Home',
+		title: 		 'Resume Builder',
 		requireAuth: false
 	});
 

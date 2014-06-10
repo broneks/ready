@@ -2,10 +2,10 @@
 
 #dash-header
 	min-height: 50px
-	padding: 20px 0
+	padding: 21px
 
 #dash
-	border-top: 1px solid #ccc
+	border-top: 1px solid  #ccc
 
 	-webkit-box-sizing: border-box
 	-moz-box-sizing: border-box
@@ -15,8 +15,30 @@
 		margin-top: 50px
 		color: #777
 
-	ul li 
-		text-align: left
+	ul 
+		overflow-y: auto
+		max-height: 300px
+		width: 80%
+		margin-left: 30px
+
+		li 
+			text-align: left
+			padding: 7px
+
+			// &:nth-child(odd)
+			// 	background-color: #F8F6F2
+
+			& + li
+				padding-top: 10px
+
+			.title
+				font-size: 1.1em
+				font-weight: bold
+
+			.date
+				font-size: 0.9em
+				font-style: italic
+				color: #777
 
 	#saved,
 	#builder,
@@ -27,6 +49,13 @@
 		padding: 19px 0
 		text-align: center
 
+		.big
+			font-size: 1.2em
+
 	#builder,
 	#matcher
 		border-left: 1px solid #ccc
+
+		img
+			display: block
+			margin: 80px auto
