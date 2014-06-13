@@ -6,10 +6,12 @@
 
 //--- Dashboard ---//
 
-app.controller('DashboardCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('DashboardCtrl', ['$scope', '$http', 'localStorageService', function($scope, $http, localStorageService) {
 
 	// insert linkedin script if it is not there
-	if (!jQuery('script[src="http://platform.linkedin.com/in.js"]').length) jQuery('<script>delete IN;</script><script type="text/javascript" src="http://platform.linkedin.com/in.js">api_key: 77noaiszyyly3g \n onLoad: onLinkedInLoad \n authorize: true \n </script>').appendTo('body');
+	if (!localStorageService.get('linkedin') && !jQuery('script[src="http://platform.linkedin.com/in.js"]').length) {
+		jQuery('<script>delete IN;</script><script type="text/javascript" src="http://platform.linkedin.com/in.js">api_key: 77noaiszyyly3g \n onLoad: onLinkedInLoad \n </script>').appendTo('body');
+	}
 
 	// get user
 	$http.get('/account/user', { cache: true }).success(function(data) { 
@@ -25,7 +27,7 @@ app.controller('DashboardCtrl', ['$scope', '$http', function($scope, $http) {
 
 //--- Resume Builder ---//
 
-app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageService', function($scope, $http, $routeParams, localStorageService) {
+app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageService', 'linkedInService', function($scope, $http, $routeParams, localStorageService, linkedInService) {
 	
 	// resume templates
 	$http.get('/app/templates', { cache: true }).success(function(data) {
@@ -78,22 +80,12 @@ app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageS
 	// else if logged in with linkedin
 	} else if (!$scope.doc && localStorageService.get('linkedin')) {
 
-		var l = localStorageService.get('linkedin');
+		// get formatted linkedin profile data from service
+		$scope.doc = linkedInService;
 
-		$scope.doc = {
-			name: 		l.formattedName,
-			address: 	'',
-			phone: 		'',
-			email: 		'',
-			website: 	'',
-			about: 		l.summary,
-			education: 	'',
-			experience: '',
-			skills: 	[],
-			interests: 	''
-		};
-
+	// else create an empty doc object
 	} else {
+
 		$scope.doc = {
 			name: 		'',
 			address: 	'',
@@ -180,6 +172,7 @@ app.controller('SignoutCtrl', ['$scope', '$location', 'AccountService', 'localSt
 
 	if (AccountService.isSignedIn()) {
 		AccountService.signout().success(function() {
+
 			// remove linkedin iframe and script from DOM
 			jQuery('iframe, script[src="http://platform.linkedin.com/in.js"]').remove();
 

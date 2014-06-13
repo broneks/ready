@@ -15,19 +15,23 @@
 				</a>
 				<div class="date">{{ doc.created | asDate | date:'dd MMMM yyyy - HH:mm '}}</div>
 			</li>
-			<li ng-if="docsLoaded && !savedDocs.length">You Have no Saved Docs!</li>
+			<li ng-if="docsLoaded && !savedDocs.length">You Have No Saved Docs!</li>
 		</ul>
 	</section>
 
 	<section id="builder">
-		<a href="#/app/resume-builder" class="big">Go to Resume Builder</a>
+		<a href="#/app/resume-builder">
+			<div class="big">Go to Resume Builder</div>
 
-		<a href="#/app/resume-builder"><img src="../img/write.png" height="128" width="128" alt="Create a Resume"></a>
+			<img src="../img/write.png" height="128" width="128" alt="Create a Resume">
+		</a>
 	</section>
 
 	<section id="matcher">
-		<a href="#/app/job-matcher" class="big">Go to Job Matcher</a>
+		<a href="#/app/job-matcher">
+			<div class="big">Go to Job Matcher</div>
 
-		<a href="#/app/resume-builder"><img src="../img/search.png" height="128" width="128" alt="Search for Jobs"></a>
+			<img src="../img/search.png" height="128" width="128" alt="Search for Jobs">
+		</a>
 	</section>
 </div>

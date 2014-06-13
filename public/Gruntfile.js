@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         	build: {
 	        	options: {
                     'devel': true,
-      				'eqeqeq': true,
+                    'eqeqeq': true,
       				'eqnull': true,
       				'browser': true,
       				'quotmark': 'single',
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
                 files: { 'css/main.css' : 'sass/base.sass' }
             },
             options: {
-                style: 'expanded', // 'compressed',
+                style: 'compressed',
                 trace: true
             }
         },

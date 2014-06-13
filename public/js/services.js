@@ -83,3 +83,52 @@ app.factory('AccountService', ['$http', '$location', 'TOKEN', 'FlashService', 'S
 		}
 	};
 }]);
+
+
+//--- LinkedIn ---//
+
+app.factory('linkedInService', ['localStorageService', function(localStorageService) {
+	var l      = localStorageService.get('linkedin');
+
+	// formatted fields
+	var f = {
+		edu: '',
+		exp: '',
+		skills: []
+	};
+
+	// education field
+	angular.forEach(l.educations.values, function(i) {
+		f.edu += i.schoolName + ' (' + 
+					  i.startDate.year + '-' + i.endDate.year + ') \n' +
+	 				  (i.degree ? i.degree + '\n' : '') +
+	 				  (i.fieldOfStudy ? i.fieldOfStudy : '') + '\n';
+	});
+
+	// experience field
+	angular.forEach(l.positions.values, function(i) {
+		f.exp += '\n' + 
+					  i.company.name + ' (' +
+					  i.startDate.year + '-' + i.endDate.year + ') — ' +
+					  i.title + '\n\n' + 
+					  (i.summary ? i.summary + '\n\n' : '');
+	});
+	
+	// skills field
+	angular.forEach(l.skills.values, function(i) {
+		this.push(i.skill.name);
+	}, f.skills);
+
+	return {
+		name: 		l.formattedName,
+		address: 	'',
+		phone: 		'',
+		email: 		l.emailAddress,
+		website: 	'',
+		about: 		l.summary,
+		education: 	f.edu,
+		experience: f.exp,
+		skills: 	f.skills,
+		interests: 	l.industry
+	};
+}]);

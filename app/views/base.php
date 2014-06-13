@@ -37,7 +37,7 @@
 					<a href="#/app/dashboard">Dashboard</a>
 				</li>
 				<li>
-					<a href="#/account/sign-out" onclick="return confirm('Sign Out of jobReady? \n\n * Any unsaved resumes will be lost *');">Sign Out</a>
+					<a href="#/account/sign-out" onclick="linkedInLogout()">Sign Out</a>
 				</li>
 			</ul>
 		</nav>
@@ -62,5 +62,6 @@
 	<script>angular.module('jobReady').constant('TOKEN', {'csrf_token': '<?= csrf_token() ?>'});</script>
 	<script src="/js/services.js"></script>
 	<script src="/js/controllers.js"></script>
+	<script src="/js/linkedinFunctions.js"></script>
 </body>
 </html>

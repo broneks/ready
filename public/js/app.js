@@ -109,6 +109,8 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', 'localStor
 
 		$rootScope.signedIn = AccountService.isSignedIn();
 
+		console.log(current);
+
 		// clear old flash messages on route change
 		if (current && $rootScope.flash) {
 			if (current.originalPath !== $rootScope.flash.path) {
@@ -133,17 +135,6 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', 'localStor
 		}
 	};
 }]);
-
-
-function onLinkedInLoad() {
-	IN.Event.on(IN, 'auth', function() {
-		angular.element(jQuery('#main')).scope().$apply(
-			function($scope) {
-				$scope.getLinkedInData();
-			}
-		);
-	});
-}
 
 
 // load stylesheets dynamically by route
