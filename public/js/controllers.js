@@ -18,17 +18,32 @@ app.controller('DashboardCtrl', ['$scope', '$http', 'localStorageService', funct
 		$scope.user = data.username; 
 	});
 
+	// get list of saved docs
 	$http.get('/doc/list').success(function(data) {
 		$scope.savedDocs = data;
 		$scope.docsLoaded = true;
 	});
+
+	$scope.docDelete = function(obj) {
+		var confirmDelete = confirm('Delete "' + obj.target.getAttribute('data-title') + '"?');
+	
+		if (confirmDelete) {
+			var id = obj.target.getAttribute('data-id');
+
+			$http.post('/doc/delete', { id: id }).success(function() {
+
+				// remove deleted item from DOM (...this saves from having to do another ajax call to refresh the list)
+				jQuery('a[data-id=' + id + ']').parent().remove();
+			});
+		}
+	};
 }]);
 
 
 //--- Resume Builder ---//
 
 app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageService', 'linkedInService', function($scope, $http, $routeParams, localStorageService, linkedInService) {
-	
+
 	// resume templates
 	$http.get('/app/templates', { cache: true }).success(function(data) {
 		$scope.templates = data;
@@ -39,9 +54,10 @@ app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageS
 				id: 	  $scope.templates[0].id,
 				template: $scope.templates[0].template
 			};
-		}
 
-		$scope.tempsLoaded = true;
+			// stop the loading gif
+			$scope.tempsLoaded = true;
+		}
 	});
 
 	// change temp variable to reflect selected drop down item
@@ -69,12 +85,18 @@ app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageS
 				id: 	  data.templateId,
 				template: data.template
 			};
+
+			// stop the loading gif
+			$scope.tempsLoaded = true;
 		})
 		.error(function() {
 			$scope.temp = {
 				id: 	  $scope.templates[0].id,
 				template: $scope.templates[0].template
 			};
+
+			// stop the loading gif
+			$scope.tempsLoaded = true;
 		});
 
 	// else if logged in with linkedin

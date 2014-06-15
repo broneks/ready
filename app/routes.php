@@ -24,6 +24,11 @@ Route::post('/doc/get', array(
 	'uses'   => 'DocController@postGetDoc'
 ));
 
+Route::post('/doc/delete', array(
+	'before' => 'auth',
+	'uses'   => 'DocController@postDeleteDoc'
+));
+
 
 //----- PDF Download-----//
 

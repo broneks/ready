@@ -54,7 +54,7 @@ class DocController extends BaseController {
 
 	//--- Display a Saved Doc ---//
 
-	public function PostGetDoc() {
+	public function postGetDoc() {
 		$docId = Input::get('id');
 
 		$doc = Doc::where('id', '=', $docId)->get()->first();
@@ -73,5 +73,13 @@ class DocController extends BaseController {
 		// else {
 		// 	return Response::json(array('error' => 'An Unexpected Error Occurred. Please Try Again.', 'path' => '/app/resume-builder'), 500);
 		// }
+	}
+
+	//--- Delete a Saved Doc ---//
+
+	public function postDeleteDoc() {
+		$docId = Input::get('id');
+
+		Doc::where('id', '=', $docId)->where('user_id', '=', Auth::user()['id'])->delete();
 	}
 }

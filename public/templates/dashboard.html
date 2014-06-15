@@ -10,20 +10,26 @@
 
 		<ul ng-cloak>
 			<li ng-if="savedDocs" ng-repeat="doc in savedDocs | orderBy: '-created'">
+				<a href="" class="delete" data-title="{{ doc.title }}" data-id="{{ doc.id }}" ng-click="docDelete($event)">x</a>
+
 				<a href="#/app/resume-builder/{{ doc.id }}">
 					<span class="title">{{ doc.title }}</span>
 				</a>
+
 				<div class="date">{{ doc.created | asDate | date:'dd MMMM yyyy - HH:mm '}}</div>
 			</li>
+
 			<li ng-if="docsLoaded && !savedDocs.length">You Have No Saved Docs!</li>
 		</ul>
+
+		<img ng-src="../img/loading.gif" height="48" width="48" ng-show="!docsLoaded" ng-hide="docsLoaded" class="loader">
 	</section>
 
 	<section id="builder">
 		<a href="#/app/resume-builder">
 			<div class="big">Go to Resume Builder</div>
 
-			<img src="../img/write.png" height="128" width="128" alt="Create a Resume">
+			<img ng-src="../img/write.png" height="128" width="128" alt="Create a Resume">
 		</a>
 	</section>
 
@@ -31,7 +37,7 @@
 		<a href="#/app/job-matcher">
 			<div class="big">Go to Job Matcher</div>
 
-			<img src="../img/search.png" height="128" width="128" alt="Search for Jobs">
+			<img ng-src="../img/search.png" height="128" width="128" alt="Search for Jobs">
 		</a>
 	</section>
 </div>

@@ -26,16 +26,16 @@ module.exports = function(grunt) {
 	        	options: {
                     'devel': true,
                     'eqeqeq': true,
-      				'eqnull': true,
-      				'browser': true,
-      				'quotmark': 'single',
-      				'trailing': true,
-		        	"globals": {
-		        		"angular": true,
-		        		"jQuery": true
-		        	}
-	        	},
-	        	files: { src: ['js/*.js'] }
+                    'eqnull': true,
+                    'browser': true,
+                    'quotmark': 'single',
+                    'trailing': true,
+                    "globals": {
+                        "angular": true,
+                        "jQuery": true
+                    }
+                },
+                files: { src: ['js/*.js'] }
         	}
         },
 
