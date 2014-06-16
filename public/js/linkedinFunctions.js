@@ -9,5 +9,5 @@ function onLinkedInLoad() {
 }
 
 function linkedInLogout() {
-	// IN.User.logout();
+	IN.User.logout();
 }

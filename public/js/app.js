@@ -126,7 +126,7 @@ app.run(['$location', '$rootScope', 'AccountService', 'FlashService', 'localStor
 	$rootScope.getLinkedInData = function() {
 		if (!localStorageService.get('linkedin')) {
 			IN.API.Profile('me')
-				.fields(['formatted-name','industry','headline','email-address','phone-numbers','summary','educations','positions','skills','interests'])
+				.fields(['formatted-name','industry','headline','location','email-address','phone-numbers','summary','educations','positions','skills','interests'])
       			.result(function(result) {
       				localStorageService.set('linkedin', result.values[0]);
       			});

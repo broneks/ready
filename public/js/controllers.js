@@ -150,10 +150,37 @@ app.controller('BuilderCtrl', ['$scope', '$http', '$routeParams', 'localStorageS
 
 //--- Job Matcher ---//
 
-app.controller('MatcherCtrl', ['$scope', function($scope) {
+app.controller('MatcherCtrl', ['$scope', 'localStorageService', function($scope, localStorageService) {
 	
+	// ------------------------------------------------------------------ //
+	// --- TO DO: Register for and implement LinkedIn Jobs Search API --- //
+	// ------------------------------------------------------------------ //
 
+	$scope.recommended = '""';
 
+	var l = localStorageService.get('linkedin');
+
+	if (l) {
+		var skills = (l.skills._total > 0 ? l.skills.values : []);
+		var random1 = '';
+		var random2 = '';
+
+		// if the user has more than one skill on their profile
+		if (skills.length > 1) {
+			random1 = Math.floor(Math.random() * skills.length);
+			random2 = Math.floor(Math.random() * skills.length);
+
+			while (random2 === random1) {
+				random2 = Math.floor(Math.random() * skills.length);
+			}
+		}
+
+		// user's location, LinkedIn profile headline and two random skill (if available)
+		$scope.recommended = '"' + (l.location ? l.location.name + ' ' : '') +
+							 (l.headline ? l.headline + ' ' : '') +
+							 (random1 && random2 ? skills[random1].skill.name + ' ' +  skills[random2].skill.name : '') + '"';
+ 		
+	}
 }]);
 
 
@@ -198,8 +225,7 @@ app.controller('SignoutCtrl', ['$scope', '$location', 'AccountService', 'localSt
 			// remove linkedin iframe and script from DOM
 			jQuery('iframe, script[src="http://platform.linkedin.com/in.js"]').remove();
 
-			// *** UN-COMMENT LATER ***
-			// localStorageService.clearAll();
+			localStorageService.clearAll();
 
 			$location.path('/');
 		});

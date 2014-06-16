@@ -1,33 +1,24 @@
-<div id="jm-left">
-	<h5>This Page Requires That You Sign in with LinkedIn...</h5>
+<div id="jm">
+	<h4 class="center">Build Your Search Terms and Click Search for Matching LinkedIn Jobs!</h4>
 	
-	<a href="#/app/dashboard">Return to Dashboard</a>
+	<div>
+		<script>
+		  (function() {
+		    var cx = '012710661128998304014:fen1n3nymgk';
+		    var gcse = document.createElement('script');
+		    gcse.type = 'text/javascript';
+		    gcse.async = true;
+		    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+		        '//www.google.com/cse/cse.js?cx=' + cx;
+		    var s = document.getElementsByTagName('script')[0];
+		    s.parentNode.insertBefore(gcse, s);
+		  })();
+		</script>
+		<gcse:searchbox-only ng-model="terms"></gcse:searchbox-only>
+	</div>	
 
-	<h4>Skills</h4>
-
-	<div class="field">
-		<label for="industry">Industry</label>
-		<input type="text" id="industry">
+	<div id="recommended">
+		<h5>Recommended Search Query:</h5>
+		<div ng-bind="recommended"></div>
 	</div>
-	
-	<div class="field">
-		<label for="addSkill">Add a Skill</label>
-		<input type="text" id="addSkill">
-	</div>
-	
-	<ul>
-		<li><input type="text"></li>
-		<li><input type="text"></li>
-		<li><input type="text"></li>
-	</ul>
-</div>
-
-<div id="jm-right">
-	<h3>Job Posting Matches</h3>
-
-	<ul>
-		<li><a href="#">Result One</a></li>
-		<li><a href="#">Result Two</a></li>
-		<li><a href="#">Result Three</a></li>
-	</ul>
 </div>
